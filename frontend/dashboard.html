@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Placement AI - Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>Campus Placement AI</h1>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Ask AI</a>
+                <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="jobs.html" class="nav-link">Jobs</a>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Stats Section -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="docsProcessed">4</h3>
+                            <p>Documents Processed</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="agentsActive">3</h3>
+                            <p>Agents Active</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="githubStatus">Connected</h3>
+                            <p>GitHub Status</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-sync"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="lastSync">Just now</h3>
+                            <p>Last Sync</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Agent Status Section -->
+            <section class="agents-section">
+                <h2><i class="fas fa-cogs"></i> Agent Status</h2>
+                <div class="agents-grid">
+                    <div class="agent-card">
+                        <div class="agent-header">
+                            <i class="fas fa-sitemap"></i>
+                            <h3>Main Placement Agent</h3>
+                        </div>
+                        <div class="agent-status active">
+                            <span class="status-dot"></span>
+                            Active
+                        </div>
+                        <p>Orchestrates queries and coordinates sub-agents</p>
+                    </div>
+                    
+                    <div class="agent-card">
+                        <div class="agent-header">
+                            <i class="fas fa-question-circle"></i>
+                            <h3>FAQ Agent</h3>
+                        </div>
+                        <div class="agent-status active">
+                            <span class="status-dot"></span>
+                            Active
+                        </div>
+                        <p>Handles placement eligibility and requirements queries</p>
+                    </div>
+                    
+                    <div class="agent-card">
+                        <div class="agent-header">
+                            <i class="fas fa-tasks"></i>
+                            <h3>Preparation Agent</h3>
+                        </div>
+                        <div class="agent-status active">
+                            <span class="status-dot"></span>
+                            Active
+                        </div>
+                        <p>Creates preparation plans and study schedules</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GitHub Status Section -->
+            <section class="github-section">
+                <h2><i class="fab fa-github"></i> GitHub Repository</h2>
+                <div class="github-status">
+                    <div class="status-indicator connected">
+                        <span class="status-dot"></span>
+                        Connected
+                    </div>
+                    <div class="repo-info">
+                        <p><strong>Repository:</strong> campus-placement-ai</p>
+                        <p><strong>Latest commit:</strong> <span id="latestCommit">Processed placement_policy.pdf</span></p>
+                        <p><strong>Last updated:</strong> <span id="lastUpdated">2 minutes ago</span></p>
+                    </div>
+                </div>
+                
+                <div class="documents-list">
+                    <h3>Processed Documents</h3>
+                    <ul id="documentsList">
+                        <li><i class="fas fa-file-pdf"></i> Placement Policy.pdf</li>
+                        <li><i class="fas fa-file-pdf"></i> Company Eligibility.pdf</li>
+                        <li><i class="fas fa-file-pdf"></i> Placement Guidelines.pdf</li>
+                        <li><i class="fas fa-file-pdf"></i> Placement Process.pdf</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Recent Activity Section -->
+            <section class="recent-activity-section">
+                <h2><i class="fas fa-history"></i> Recent Activity</h2>
+                <div class="activity-list" id="recentActivity">
+                    <div class="activity-item">
+                        <div class="activity-icon completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="activity-details">
+                            <p><strong>Document Processed:</strong> placement_policy.pdf</p>
+                            <span class="activity-time">2 minutes ago</span>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="activity-details">
+                            <p><strong>Query Answered:</strong> CGPA requirements</p>
+                            <span class="activity-time">5 minutes ago</span>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="activity-details">
+                            <p><strong>Preparation Plan:</strong> Generated for 30-day timeline</p>
+                            <span class="activity-time">10 minutes ago</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 Campus Placement AI Agent. Built with Microsoft Azure & Foundry.</p>
+        </footer>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobs & Applications | Campus Placement AI</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>Campus Placement AI</h1>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Ask AI</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="jobs.html" class="nav-link active">Jobs</a>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            <div class="jobs-layout">
+
+                <!-- Profile Panel -->
+                <section class="card profile-panel">
+                    <div class="card-header">
+                        <h2><i class="fas fa-user-circle"></i> Your Profile</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="upload-box">
+                            <label for="resumeFile" class="upload-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Upload your resume (PDF / DOCX / TXT)</span>
+                            </label>
+                            <input type="file" id="resumeFile" accept=".pdf,.docx,.txt" hidden>
+                            <p class="hint" id="resumeStatus"></p>
+                        </div>
+
+                        <div class="field">
+                            <label>Name</label>
+                            <input type="text" id="pName" placeholder="Your name">
+                        </div>
+                        <div class="field">
+                            <label>Email</label>
+                            <input type="email" id="pEmail" placeholder="you@example.com">
+                        </div>
+                        <div class="field">
+                            <label>Preferred role</label>
+                            <input type="text" id="pRole" placeholder="e.g. Software Engineer, Data Analyst">
+                        </div>
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Location</label>
+                                <input type="text" id="pLocation" placeholder="e.g. Chandigarh">
+                            </div>
+                            <div class="field">
+                                <label>Job type</label>
+                                <select id="pJobType">
+                                    <option value="">Any</option>
+                                    <option value="remote">Remote</option>
+                                    <option value="onsite">On-site</option>
+                                    <option value="hybrid">Hybrid</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field">
+                                <label>CGPA</label>
+                                <input type="number" id="pCgpa" step="0.1" min="0" max="10" placeholder="8.5">
+                            </div>
+                            <div class="field">
+                                <label>Degree</label>
+                                <input type="text" id="pDegree" placeholder="B.E. AI">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Skills <span class="hint">(comma separated)</span></label>
+                            <input type="text" id="pSkills" placeholder="Python, Java, SQL, Machine Learning...">
+                        </div>
+                        <div class="field">
+                            <label>Projects <span class="hint">(comma separated)</span></label>
+                            <input type="text" id="pProjects" placeholder="Stock Predictor, Chatbot...">
+                        </div>
+                        <button class="btn btn-primary btn-block" id="saveProfileBtn">
+                            <i class="fas fa-save"></i> Save Profile
+                        </button>
+                        <p class="hint" id="profileStatus"></p>
+                    </div>
+                </section>
+
+                <!-- Jobs Panel -->
+                <section class="card jobs-panel">
+                    <div class="card-header">
+                        <h2><i class="fas fa-briefcase"></i> Job Matches</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="jobs-filters">
+                            <input type="text" id="jobSearch" placeholder="Keyword (e.g. python)">
+                            <input type="text" id="jobLocation" placeholder="Location">
+                            <label class="checkbox-label"><input type="checkbox" id="jobRemote"> Remote only</label>
+                            <button class="btn btn-primary" id="matchBtn"><i class="fas fa-magic"></i> Match Me</button>
+                        </div>
+                        <p class="hint" id="jobsStatus"></p>
+                        <div id="matchResults"></div>
+                    </div>
+                </section>
+
+                <!-- Email / Applications Panel -->
+                <section class="card email-panel">
+                    <div class="card-header">
+                        <h2><i class="fas fa-paper-plane"></i> Applications (Draft -> Approve -> Send)</h2>
+                    </div>
+                    <div class="card-body">
+                        <div id="draftArea">
+                            <p class="hint">Select a matched job and click "Draft email" to generate a personalized application. You review it, then approve and send.</p>
+                        </div>
+
+                        <h3 class="section-title">Pending drafts</h3>
+                        <div id="pendingDrafts"></div>
+                        <h3 class="section-title">Sent</h3>
+                        <div id="sentDrafts"></div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="draftModal" hidden>
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="draftModalTitle">Draft Email</h3>
+                <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="field">
+                    <label>Recipient email</label>
+                    <input type="email" id="contactEmail" placeholder="hr@company.com">
+                </div>
+                <div class="field">
+                    <label>Subject</label>
+                    <input type="text" id="draftSubject">
+                </div>
+                <div class="field">
+                    <label>Body <span class="hint">(editable)</span></label>
+                    <textarea id="draftBody" rows="14"></textarea>
+                </div>
+                <p class="hint" id="draftStatus"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="regenerateBtn">Regenerate</button>
+                <button class="btn btn-primary" id="approveBtn">Approve Draft</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/jobs.js"></script>
+</body>
+</html>

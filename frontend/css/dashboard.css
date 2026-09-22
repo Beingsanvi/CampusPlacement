@@ -1,0 +1,433 @@
+/* Campus Placement AI - Dashboard Styles */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #0078d4;
+    --primary-dark: #005a9e;
+    --secondary-color: #50e6ff;
+    --success-color: #107c10;
+    --warning-color: #ffb900;
+    --error-color: #d13438;
+    --background-color: #f5f5f5;
+    --card-background: #ffffff;
+    --text-primary: #323130;
+    --text-secondary: #605e5c;
+    --border-color: #edebe9;
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--card-background);
+    margin-bottom: 30px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
+.logo h1 {
+    font-size: 1.8rem;
+    color: var(--text-primary);
+}
+
+.nav {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.nav-link.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Main Content */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+/* Stats Section */
+.stats-section {
+    margin-bottom: 10px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.stat-card {
+    background: var(--card-background);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.stat-card:nth-child(1) .stat-icon {
+    background: rgba(0, 120, 212, 0.1);
+    color: var(--primary-color);
+}
+
+.stat-card:nth-child(2) .stat-icon {
+    background: rgba(16, 124, 16, 0.1);
+    color: var(--success-color);
+}
+
+.stat-card:nth-child(3) .stat-icon {
+    background: rgba(50, 49, 48, 0.1);
+    color: var(--text-primary);
+}
+
+.stat-card:nth-child(4) .stat-icon {
+    background: rgba(255, 185, 0, 0.1);
+    color: var(--warning-color);
+}
+
+.stat-info h3 {
+    font-size: 2rem;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.stat-info p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Agents Section */
+.agents-section {
+    background: var(--card-background);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 25px;
+}
+
+.agents-section h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    color: var(--text-primary);
+}
+
+.agents-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.agent-card {
+    background: var(--background-color);
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.agent-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.agent-header i {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.agent-header h3 {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.agent-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.agent-status.active {
+    color: var(--success-color);
+}
+
+.agent-status.inactive {
+    color: var(--error-color);
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.agent-status.active .status-dot {
+    background: var(--success-color);
+}
+
+.agent-status.inactive .status-dot {
+    background: var(--error-color);
+}
+
+.agent-card p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* GitHub Section */
+.github-section {
+    background: var(--card-background);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 25px;
+}
+
+.github-section h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    color: var(--text-primary);
+}
+
+.github-status {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: var(--background-color);
+    border-radius: 10px;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}
+
+.status-indicator.connected {
+    color: var(--success-color);
+}
+
+.status-indicator.disconnected {
+    color: var(--error-color);
+}
+
+.repo-info p {
+    margin-bottom: 5px;
+}
+
+.repo-info strong {
+    color: var(--text-primary);
+}
+
+.documents-list {
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+}
+
+.documents-list h3 {
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.documents-list ul {
+    list-style: none;
+}
+
+.documents-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: var(--background-color);
+    border-radius: 5px;
+    margin-bottom: 8px;
+}
+
+.documents-list li i {
+    color: var(--error-color);
+}
+
+/* Recent Activity Section */
+.recent-activity-section {
+    background: var(--card-background);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 25px;
+}
+
+.recent-activity-section h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    color: var(--text-primary);
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: var(--background-color);
+    border-radius: 8px;
+}
+
+.activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.activity-icon.completed {
+    background: var(--success-color);
+    color: white;
+}
+
+.activity-icon.pending {
+    background: var(--warning-color);
+    color: white;
+}
+
+.activity-icon.error {
+    background: var(--error-color);
+    color: white;
+}
+
+.activity-details {
+    flex: 1;
+}
+
+.activity-details p {
+    margin-bottom: 5px;
+}
+
+.activity-time {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .agents-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .nav {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .agents-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .github-status {
+        flex-direction: column;
+        text-align: center;
+    }
+}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Placement AI</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>Campus Placement AI</h1>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link active">Ask AI</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="jobs.html" class="nav-link">Jobs</a>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Chat Section -->
+            <section class="chat-section">
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <h2><i class="fas fa-robot"></i> Ask Campus Placement AI</h2>
+                        <p>Get answers about placement eligibility, companies, and preparation</p>
+                    </div>
+                    
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message bot-message">
+                            <div class="message-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <p>Hello! I'm your Campus Placement AI Assistant. I can help you with:</p>
+                                <ul>
+                                    <li>Placement eligibility and requirements</li>
+                                    <li>Company-specific information</li>
+                                    <li>Placement process details</li>
+                                    <li>Preparation guidance</li>
+                                </ul>
+                                <p>How can I help you today?</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <div class="input-wrapper">
+                            <input type="text" id="userInput" placeholder="Ask about placements..." autocomplete="off">
+                            <button id="sendBtn" class="send-btn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <div class="quick-actions">
+                            <button class="quick-btn" data-query="What is the minimum CGPA required?">CGPA Requirements</button>
+                            <button class="quick-btn" data-query="What is the placement process?">Placement Process</button>
+                            <button class="quick-btn" data-query="Tell me about TechNova Solutions">TechNova Solutions</button>
+                            <button class="quick-btn" data-query="I have 30 days before placements. What should I prepare?">Preparation Plan</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Agent Activity Section -->
+            <section class="activity-section">
+                <div class="activity-container">
+                    <h3><i class="fas fa-cogs"></i> Agent Activity</h3>
+                    <div class="activity-timeline" id="activityTimeline">
+                        <div class="activity-item">
+                            <div class="activity-icon waiting">
+                                <i class="fas fa-hourglass-start"></i>
+                            </div>
+                            <div class="activity-text">Waiting for query...</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 Campus Placement AI Agent. Built with Microsoft Azure & Foundry.</p>
+        </footer>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
