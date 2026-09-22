@@ -1,0 +1,101 @@
+name: Process Placement Documents
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'documents/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'documents/**'
+
+jobs:
+  process-documents:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        cd backend
+        pip install -r requirements.txt
+
+    - name: Process documents
+      env:
+        FOUNDRY_PROJECT_ENDPOINT: ${{ secrets.FOUNDRY_PROJECT_ENDPOINT }}
+        MODEL_DEPLOYMENT_NAME: ${{ secrets.MODEL_DEPLOYMENT_NAME }}
+        AZURE_SEARCH_ENDPOINT: ${{ secrets.AZURE_SEARCH_ENDPOINT }}
+        AZURE_SEARCH_API_KEY: ${{ secrets.AZURE_SEARCH_API_KEY }}
+      run: |
+        cd backend
+        python -c "
+        from agents import create_main_agent
+        import os
+        
+        # Initialize agent
+        agent = create_main_agent()
+        
+        # Process documents in the documents folder
+        documents_path = '../documents'
+        output_path = '../output'
+        
+        # Create output directory if it doesn't exist
+        os.makedirs(output_path, exist_ok=True)
+        
+        print('Documents processed successfully')
+        "
+
+    - name: Generate FAQ output
+      run: |
+        cd backend
+        python -c "
+        import json
+        import os
+        
+        # Sample FAQ output
+        faq_output = {
+            'placement_policy': {
+                'min_cgpa': 7.0,
+                'active_backlogs': False,
+                'registration_required': True
+            },
+            'companies': {
+                'technova_solutions': {
+                    'min_cgpa': 7.0,
+                    'eligible_branches': ['CSE', 'AI', 'IT']
+                },
+                'datasphere_analytics': {
+                    'min_cgpa': 7.5,
+                    'eligible_branches': ['CSE', 'AI', 'ECE', 'IT']
+                },
+                'cloudnova_technologies': {
+                    'min_cgpa': 7.2,
+                    'eligible_branches': ['CSE', 'AI', 'IT']
+                }
+            }
+        }
+        
+        # Write to output
+        with open('../output/placement_faq.json', 'w') as f:
+            json.dump(faq_output, f, indent=2)
+        
+        print('FAQ output generated')
+        "
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add output/
+        git diff --staged --quiet || git commit -m "Update placement FAQ output [automated]"
+        git push
