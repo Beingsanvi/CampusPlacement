@@ -1,0 +1,129 @@
+# Company Eligibility Criteria
+
+## TechNova Solutions
+
+### Company Profile
+- Industry: IT Services & Consulting
+- Location: Bangalore, Hyderabad, Pune
+- Role: Software Developer
+- Package: 8-12 LPA
+
+### Eligibility Requirements
+- **Branches Eligible**: CSE, AI, IT
+- **Minimum CGPA**: 7.0
+- **Backlog Policy**: No active backlogs allowed
+- **Year of Graduation**: 2026
+
+### Selection Process
+1. Online Aptitude Test (60 minutes)
+   - Logical Reasoning
+   - Quantitative Aptitude
+   - Verbal Ability
+
+2. Coding Test (90 minutes)
+   - 2-3 coding problems
+   - Languages: Python, Java, C++
+   - Focus: Data Structures & Algorithms
+
+3. Technical Interview (2 rounds)
+   - Round 1: Technical concepts, coding problems
+   - Round 2: System design, project discussion
+
+4. HR Interview
+   - Behavioral questions
+   - Salary negotiation
+   - Company overview
+
+### Preferred Skills
+- Python/Java programming
+- SQL basics
+- Data Structures & Algorithms
+- Problem-solving ability
+
+---
+
+## DataSphere Analytics
+
+### Company Profile
+- Industry: Data Analytics & AI
+- Location: Bangalore, Mumbai
+- Role: Data Analyst / ML Engineer
+- Package: 10-15 LPA
+
+### Eligibility Requirements
+- **Branches Eligible**: CSE, AI, ECE, IT
+- **Minimum CGPA**: 7.5
+- **Backlog Policy**: No active backlogs allowed
+- **Year of Graduation**: 2026
+
+### Selection Process
+1. Online Aptitude Test (45 minutes)
+   - Logical Reasoning
+   - Data Interpretation
+   - Basic Statistics
+
+2. SQL & Data Assessment (60 minutes)
+   - SQL queries
+   - Data manipulation
+   - Basic statistics concepts
+
+3. Technical Interview (2 rounds)
+   - Round 1: SQL, Python, Statistics
+   - Round 2: Machine Learning concepts, case studies
+
+4. HR Interview
+   - Behavioral questions
+   - Team fit assessment
+
+### Preferred Skills
+- SQL proficiency
+- Python for data analysis
+- Statistics and probability
+- Basic machine learning concepts
+- Data visualization tools
+
+---
+
+## CloudNova Technologies
+
+### Company Profile
+- Industry: Cloud Computing & DevOps
+- Location: Hyderabad, Pune
+- Role: Cloud Engineer / DevOps Engineer
+- Package: 9-14 LPA
+
+### Eligibility Requirements
+- **Branches Eligible**: CSE, AI, IT
+- **Minimum CGPA**: 7.2
+- **Backlog Policy**: No active backlogs allowed
+- **Year of Graduation**: 2026
+
+### Selection Process
+1. Online Coding Test (90 minutes)
+   - 3-4 coding problems
+   - Focus: Problem-solving, algorithms
+   - Languages: Any standard language
+
+2. Technical Interview (2 rounds)
+   - Round 1: Programming concepts, coding
+   - Round 2: System design, cloud concepts
+
+3. Managerial Interview
+   - Technical depth assessment
+   - Problem-solving approach
+   - Team collaboration
+
+4. HR Interview
+   - Behavioral questions
+   - Career goals discussion
+
+### Preferred Skills
+- Programming fundamentals
+- Cloud platforms (AWS/Azure/GCP basics)
+- Linux fundamentals
+- Networking basics
+- Docker/Kubernetes basics
+
+---
+
+*Note: Eligibility criteria may vary. Always check the latest requirements from the Placement Cell.*

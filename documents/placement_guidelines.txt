@@ -1,0 +1,119 @@
+# Placement Preparation Guidelines
+
+## 1. Registration Preparation
+
+### Documents Required
+- Updated Resume (2-3 copies)
+- All academic certificates (10th, 12th, Degree)
+- Photo ID proof
+- Passport-size photographs (5-6 copies)
+- Internship certificates (if any)
+- Project certificates (if any)
+- Offer letter (for placement acceptance)
+
+### Resume Tips
+- Keep resume to 1-2 pages
+- Highlight relevant skills and projects
+- Include technical skills section
+- Mention internships and certifications
+- Use professional format
+
+## 2. Assessment Preparation
+
+### Aptitude Test Preparation
+- **Logical Reasoning**: Practice puzzles, series, coding-decoding
+- **Quantitative Aptitude**: Focus on arithmetic, algebra, geometry
+- **Verbal Ability**: Reading comprehension, grammar, vocabulary
+- **Data Interpretation**: Charts, graphs, tables analysis
+
+### Recommended Resources
+- IndiaBix for aptitude practice
+- GeeksforGeeks for coding
+- LeetCode for programming challenges
+- HackerRank for skill practice
+
+## 3. Technical Interview Preparation
+
+### Core Topics
+- **Data Structures**: Arrays, Linked Lists, Trees, Graphs, Hash Tables
+- **Algorithms**: Sorting, Searching, Dynamic Programming, Greedy
+- **Programming**: OOPs concepts, Language-specific features
+- **Databases**: SQL basics, Normalization, Indexing
+- **Operating Systems**: Processes, Threads, Memory Management
+- **Networking**: OSI Model, TCP/IP, HTTP basics
+
+### System Design (for advanced roles)
+- Scalability concepts
+- Load balancing
+- Caching mechanisms
+- Database design
+
+## 4. HR Interview Preparation
+
+### Common Questions
+- Tell me about yourself
+- Why this company?
+- Strengths and weaknesses
+- Career goals
+- Team experience
+- Conflict resolution
+
+### Tips
+- Research the company thoroughly
+- Prepare STAR method examples
+- Practice mock interviews
+- Maintain professional body language
+
+## 5. Company-Specific Preparation
+
+### Research Each Company
+- Company history and mission
+- Products/services
+- Recent news and developments
+- Work culture
+- Salary and benefits
+
+### Assessment Patterns
+- Some companies focus on coding
+- Others emphasize aptitude
+- Some have group discussions
+- Technical depth varies by role
+
+## 6. Daily Practice Schedule
+
+### Recommended Daily Routine
+- **Morning**: 1 hour aptitude practice
+- **Afternoon**: 2 hours coding practice
+- **Evening**: 1 hour technical concepts
+- **Night**: 30 minutes company research
+
+### Weekly Goals
+- Solve 5-10 coding problems
+- Complete 1-2 aptitude tests
+- Study 1-2 technical topics
+- Mock interview practice
+
+## 7. Interview Day Tips
+
+### Before Interview
+- Get proper sleep
+- Dress professionally
+- Arrive 15-20 minutes early
+- Carry all required documents
+- Stay calm and confident
+
+### During Interview
+- Listen carefully to questions
+- Think before answering
+- Be honest about knowledge gaps
+- Show enthusiasm and interest
+- Ask relevant questions
+
+### After Interview
+- Send thank-you email
+- Follow up if no response
+- Continue preparing for next opportunity
+
+---
+
+*Preparation is key to success. Start early and practice consistently.*

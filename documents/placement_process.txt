@@ -1,0 +1,205 @@
+# Campus Placement Process
+
+## Overview
+
+The campus placement process follows a structured approach to connect students with potential employers. This document outlines the complete placement workflow.
+
+## 1. Registration Phase
+
+### Timeline
+- Registration opens: 4 weeks before first company visit
+- Registration deadline: 2 weeks before company visit
+- Late registration: Not allowed
+
+### Steps
+1. **Online Registration**
+   - Fill placement registration form
+   - Upload required documents
+   - Pay registration fee (if applicable)
+   - Submit resume
+
+2. **Document Verification**
+   - Academic certificates verified
+   - Resume reviewed
+   - Eligibility confirmed
+
+3. **Orientation Session**
+   - Placement process overview
+   - Code of conduct briefing
+   - Q&A session
+
+## 2. Pre-Placement Activities
+
+### Company Announcements
+- Company details shared via placement portal
+- Job description and requirements posted
+- Eligibility criteria specified
+- Application deadline announced
+
+### Student Preparation
+- Review company requirements
+- Update resume if needed
+- Prepare for specific assessment
+- Attend pre-placement talks (if scheduled)
+
+## 3. Eligibility Check
+
+### Verification Process
+- CGPA verification
+- Backlog status check
+- Branch eligibility confirmation
+- Attendance record review
+
+### Common Disqualifications
+- CGPA below minimum requirement
+- Active backlogs
+- Disciplinary issues
+- Incomplete registration
+
+## 4. Assessment Phase
+
+### Types of Assessments
+
+#### Online Tests
+- **Aptitude Test**: 45-60 minutes
+  - Logical reasoning
+  - Quantitative aptitude
+  - Verbal ability
+
+- **Coding Test**: 60-90 minutes
+  - 2-4 coding problems
+  - Focus on DSA and problem-solving
+  - Language: Python, Java, C++
+
+- **Technical Test**: 30-60 minutes
+  - Domain-specific questions
+  - Technical concepts
+  - Problem-solving scenarios
+
+#### Group Discussion (if applicable)
+- Topic discussion (15-20 minutes)
+- Team collaboration assessment
+- Communication skills evaluation
+
+### Assessment Tips
+- Time management is crucial
+- Read questions carefully
+- Start with easier problems
+- Manage stress and stay calm
+
+## 5. Interview Phase
+
+### Technical Interview
+
+#### Round 1 (30-45 minutes)
+- Programming concepts
+- Data structures and algorithms
+- Basic technical questions
+- Project discussion
+
+#### Round 2 (30-45 minutes)
+- Advanced technical concepts
+- System design (for experienced roles)
+- Problem-solving approach
+- Technical depth assessment
+
+### Managerial Interview (if applicable)
+- Leadership qualities
+- Problem-solving approach
+- Team collaboration
+- Decision-making skills
+
+### HR Interview (20-30 minutes)
+- Behavioral questions
+- Career goals
+- Company fit assessment
+- Salary negotiation
+
+## 6. Selection Process
+
+### Evaluation Criteria
+- Assessment scores
+- Interview performance
+- Technical skills
+- Communication skills
+- Cultural fit
+
+### Selection Timeline
+- Results typically announced within 1-2 weeks
+- Offer letters shared via email
+- Acceptance deadline specified
+
+## 7. Offer & Acceptance
+
+### Offer Details
+- Job role and designation
+- Salary package (CTC)
+- Joining date
+- Location
+- Terms and conditions
+
+### Acceptance Process
+1. Review offer details carefully
+2. Accept/decline within deadline
+3. Sign offer letter if accepting
+4. Notify placement cell
+
+### Post-Acceptance
+- Mandatory to join on specified date
+- Cannot decline without valid reason
+- Violation may result in placement ban
+
+## 8. Post-Placement
+
+### For Selected Students
+- Receive onboarding information
+- Complete pre-joining formalities
+- Join company on specified date
+
+### For Unselected Students
+- Continue preparing for next opportunities
+- Attend next company drives
+- Seek feedback if available
+
+## 9. Important Contacts
+
+### Placement Cell
+- Placement Coordinator
+- Training & Placement Officer
+- Department Placement Representatives
+
+### Communication Channels
+- Placement Portal
+- Email notifications
+- WhatsApp groups (if applicable)
+- Notice board announcements
+
+---
+
+## Quick Reference: Placement Flow
+
+```
+Registration
+    ↓
+Eligibility Check
+    ↓
+Company Announcement
+    ↓
+Application Submission
+    ↓
+Assessment (Online Test)
+    ↓
+Technical Interview (1-2 rounds)
+    ↓
+HR/Managerial Interview
+    ↓
+Selection & Offer
+    ↓
+Acceptance
+    ↓
+Joining
+```
+
+---
+
+*Always refer to the latest placement schedule and guidelines from the Placement Cell.*
