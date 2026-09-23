@@ -1,185 +1,200 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Placement AI - Dashboard</title>
-    <link rel="stylesheet" href="css/dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">
-                <i class="fas fa-graduation-cap"></i>
-                <h1>Campus Placement AI</h1>
-            </div>
-            <nav class="nav">
-                <a href="index.html" class="nav-link">Ask AI</a>
-                <a href="dashboard.html" class="nav-link active">Dashboard</a>
-                <a href="jobs.html" class="nav-link">Jobs</a>
-            </nav>
-        </header>
+<html lang="en"><head><meta charset="utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="web_dashboard" name="shell-type" /><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" /><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet" /><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:auto;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}</style><script src="https://cdn.tailwindcss.com"></script><script src="css/theme-config.js"></script><title>Dashboard // Campus Placement AI</title></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-container/20 selection:text-primary-fixed" data-page="dashboard-overview"><aside id="shell-sidebar"></aside><div class="lg:pl-64"><header id="shell-header"></header><main class="relative pt-16 bg-background min-h-screen w-full px-gutter-lg py-gutter"><div class="max-w-7xl mx-auto flex flex-col w-full gap-gutter">
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Stats Section -->
-            <section class="stats-section">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-file-alt"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="docsProcessed">4</h3>
-                            <p>Documents Processed</p>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="agentsActive">3</h3>
-                            <p>Agents Active</p>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fab fa-github"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="githubStatus">Connected</h3>
-                            <p>GitHub Status</p>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-sync"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="lastSync">Just now</h3>
-                            <p>Last Sync</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+<!-- Page header -->
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<h1 class="font-headline-lg text-headline-lg text-chalk-text">Dashboard</h1>
+<p class="font-body-md text-body-md text-titanium-muted">System status, agents and recent activity at a glance.</p>
+</div>
+<div class="flex items-center gap-space-xs px-space-md py-1 rounded-full bg-slate-elevated">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="font-label-sm text-label-sm text-chalk-text font-semibold uppercase tracking-wide">All systems nominal</span>
+</div>
+</div>
 
-            <!-- Agent Status Section -->
-            <section class="agents-section">
-                <h2><i class="fas fa-cogs"></i> Agent Status</h2>
-                <div class="agents-grid">
-                    <div class="agent-card">
-                        <div class="agent-header">
-                            <i class="fas fa-sitemap"></i>
-                            <h3>Main Placement Agent</h3>
-                        </div>
-                        <div class="agent-status active">
-                            <span class="status-dot"></span>
-                            Active
-                        </div>
-                        <p>Orchestrates queries and coordinates sub-agents</p>
-                    </div>
-                    
-                    <div class="agent-card">
-                        <div class="agent-header">
-                            <i class="fas fa-question-circle"></i>
-                            <h3>FAQ Agent</h3>
-                        </div>
-                        <div class="agent-status active">
-                            <span class="status-dot"></span>
-                            Active
-                        </div>
-                        <p>Handles placement eligibility and requirements queries</p>
-                    </div>
-                    
-                    <div class="agent-card">
-                        <div class="agent-header">
-                            <i class="fas fa-tasks"></i>
-                            <h3>Preparation Agent</h3>
-                        </div>
-                        <div class="agent-status active">
-                            <span class="status-dot"></span>
-                            Active
-                        </div>
-                        <p>Creates preparation plans and study schedules</p>
-                    </div>
-                </div>
-            </section>
+<!-- Stats -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-gutter">
+<div class="bg-surface border border-slate-border rounded-xl shadow-card p-gutter flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-lg bg-slate-elevated flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary-container text-[22px]">description</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-titanium-muted uppercase tracking-wide">Documents processed</span>
+<span class="font-headline-lg text-headline-lg text-chalk-text leading-none" id="docsProcessed">4</span>
+</div>
+</div>
+<div class="bg-surface border border-slate-border rounded-xl shadow-card p-gutter flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-lg bg-slate-elevated flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary-container text-[22px]">smart_toy</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-titanium-muted uppercase tracking-wide">Agents active</span>
+<span class="font-headline-lg text-headline-lg text-chalk-text leading-none" id="agentsActive">3</span>
+</div>
+</div>
+<div class="bg-surface border border-slate-border rounded-xl shadow-card p-gutter flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-lg bg-slate-elevated flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary-container text-[22px]">hub</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-titanium-muted uppercase tracking-wide">GitHub status</span>
+<span class="font-headline-lg text-headline-lg text-primary-fixed leading-none" id="githubStatus">Connected</span>
+</div>
+</div>
+<div class="bg-surface border border-slate-border rounded-xl shadow-card p-gutter flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-lg bg-slate-elevated flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary-container text-[22px]">sync</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-titanium-muted uppercase tracking-wide">Last sync</span>
+<span class="font-headline-lg text-headline-lg text-chalk-text leading-none" id="lastSync">Just now</span>
+</div>
+</div>
+</div>
 
-            <!-- GitHub Status Section -->
-            <section class="github-section">
-                <h2><i class="fab fa-github"></i> GitHub Repository</h2>
-                <div class="github-status">
-                    <div class="status-indicator connected">
-                        <span class="status-dot"></span>
-                        Connected
-                    </div>
-                    <div class="repo-info">
-                        <p><strong>Repository:</strong> campus-placement-ai</p>
-                        <p><strong>Latest commit:</strong> <span id="latestCommit">Processed placement_policy.pdf</span></p>
-                        <p><strong>Last updated:</strong> <span id="lastUpdated">2 minutes ago</span></p>
-                    </div>
-                </div>
-                
-                <div class="documents-list">
-                    <h3>Processed Documents</h3>
-                    <ul id="documentsList">
-                        <li><i class="fas fa-file-pdf"></i> Placement Policy.pdf</li>
-                        <li><i class="fas fa-file-pdf"></i> Company Eligibility.pdf</li>
-                        <li><i class="fas fa-file-pdf"></i> Placement Guidelines.pdf</li>
-                        <li><i class="fas fa-file-pdf"></i> Placement Process.pdf</li>
-                    </ul>
-                </div>
-            </section>
+<!-- Agent status -->
+<div class="bg-surface border border-slate-border rounded-xl shadow-card p-gutter flex flex-col gap-gutter">
+<div class="flex items-center justify-between gap-space-sm pb-space-md border-b border-slate-border">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[18px] text-primary-container">deployed_code</span>
+<span class="font-headline-sm text-headline-sm text-chalk-text">Agent status</span>
+</div>
+<span class="font-body-sm text-body-sm text-primary-fixed font-medium">3 of 3 active</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="agent-card bg-slate-elevated rounded-xl p-gutter flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-md">
+<span class="w-9 h-9 rounded-lg bg-surface flex items-center justify-center"><span class="material-symbols-outlined text-primary-container text-[18px]">account_tree</span></span>
+<h3 class="font-label-md text-label-md text-chalk-text font-semibold">Main Placement Agent</h3>
+</div>
+<div class="agent-status flex items-center gap-space-xs">
+<span class="w-1.5 h-1.5 bg-primary-container rounded-full"></span>
+<span class="font-label-sm text-label-sm text-primary-fixed uppercase font-semibold">Active</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Orchestrates queries and coordinates sub-agents.</p>
+</div>
+<div class="agent-card bg-slate-elevated rounded-xl p-gutter flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-md">
+<span class="w-9 h-9 rounded-lg bg-surface flex items-center justify-center"><span class="material-symbols-outlined text-primary-container text-[18px]">quiz</span></span>
+<h3 class="font-label-md text-label-md text-chalk-text font-semibold">FAQ Agent</h3>
+</div>
+<div class="agent-status flex items-center gap-space-xs">
+<span class="w-1.5 h-1.5 bg-primary-container rounded-full"></span>
+<span class="font-label-sm text-label-sm text-primary-fixed uppercase font-semibold">Active</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Answers placement eligibility and requirements questions.</p>
+</div>
+<div class="agent-card bg-slate-elevated rounded-xl p-gutter flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-md">
+<span class="w-9 h-9 rounded-lg bg-surface flex items-center justify-center"><span class="material-symbols-outlined text-primary-container text-[18px]">route</span></span>
+<h3 class="font-label-md text-label-md text-chalk-text font-semibold">Preparation Agent</h3>
+</div>
+<div class="agent-status flex items-center gap-space-xs">
+<span class="w-1.5 h-1.5 bg-primary-container rounded-full"></span>
+<span class="font-label-sm text-label-sm text-primary-fixed uppercase font-semibold">Active</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Builds preparation plans and study schedules.</p>
+</div>
+</div>
+</div>
 
-            <!-- Recent Activity Section -->
-            <section class="recent-activity-section">
-                <h2><i class="fas fa-history"></i> Recent Activity</h2>
-                <div class="activity-list" id="recentActivity">
-                    <div class="activity-item">
-                        <div class="activity-icon completed">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <div class="activity-details">
-                            <p><strong>Document Processed:</strong> placement_policy.pdf</p>
-                            <span class="activity-time">2 minutes ago</span>
-                        </div>
-                    </div>
-                    
-                    <div class="activity-item">
-                        <div class="activity-icon completed">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <div class="activity-details">
-                            <p><strong>Query Answered:</strong> CGPA requirements</p>
-                            <span class="activity-time">5 minutes ago</span>
-                        </div>
-                    </div>
-                    
-                    <div class="activity-item">
-                        <div class="activity-icon completed">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <div class="activity-details">
-                            <p><strong>Preparation Plan:</strong> Generated for 30-day timeline</p>
-                            <span class="activity-time">10 minutes ago</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
+<!-- Source control / documents -->
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-gutter items-start">
+<div class="bg-surface border border-slate-border rounded-xl shadow-card p-gutter flex flex-col gap-gutter">
+<div class="flex items-center justify-between gap-space-sm pb-space-md border-b border-slate-border">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[18px] text-primary-container">folder_shared</span>
+<span class="font-headline-sm text-headline-sm text-chalk-text">Source control</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="w-1.5 h-1.5 bg-primary-container rounded-full"></span>
+<span class="font-label-sm text-label-sm text-primary-fixed uppercase font-semibold">Connected</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs font-body-md text-body-md">
+<div class="flex items-center justify-between gap-space-sm bg-slate-elevated rounded-lg px-space-md py-space-sm">
+<span class="text-titanium-muted">Repository</span>
+<span class="text-chalk-text font-medium">campus-placement-ai</span>
+</div>
+<div class="flex items-center justify-between gap-space-sm bg-slate-elevated rounded-lg px-space-md py-space-sm">
+<span class="text-titanium-muted">Latest commit</span>
+<span class="text-chalk-text font-medium" id="latestCommit">Processed placement_policy.pdf</span>
+</div>
+<div class="flex items-center justify-between gap-space-sm bg-slate-elevated rounded-lg px-space-md py-space-sm">
+<span class="text-titanium-muted">Last updated</span>
+<span class="text-chalk-text font-medium" id="lastUpdated">2 minutes ago</span>
+</div>
+</div>
+</div>
+<div class="bg-surface border border-slate-border rounded-xl shadow-card p-gutter flex flex-col gap-gutter">
+<div class="flex items-center justify-between gap-space-sm pb-space-md border-b border-slate-border">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[18px] text-primary-container">folder_open</span>
+<span class="font-headline-sm text-headline-sm text-chalk-text">Processed documents</span>
+</div>
+<span class="font-body-sm text-body-sm text-titanium-muted">Vector indexed</span>
+</div>
+<ul class="flex flex-col gap-space-sm" id="documentsList">
+<li class="flex items-center gap-space-md bg-slate-elevated rounded-lg px-space-md py-space-sm">
+<span class="material-symbols-outlined text-primary-container text-[16px]">picture_as_pdf</span>
+<span class="font-body-md text-body-md text-chalk-text">Placement Policy.pdf</span>
+</li>
+<li class="flex items-center gap-space-md bg-slate-elevated rounded-lg px-space-md py-space-sm">
+<span class="material-symbols-outlined text-primary-container text-[16px]">picture_as_pdf</span>
+<span class="font-body-md text-body-md text-chalk-text">Company Eligibility.pdf</span>
+</li>
+<li class="flex items-center gap-space-md bg-slate-elevated rounded-lg px-space-md py-space-sm">
+<span class="material-symbols-outlined text-primary-container text-[16px]">picture_as_pdf</span>
+<span class="font-body-md text-body-md text-chalk-text">Placement Guidelines.pdf</span>
+</li>
+<li class="flex items-center gap-space-md bg-slate-elevated rounded-lg px-space-md py-space-sm">
+<span class="material-symbols-outlined text-primary-container text-[16px]">picture_as_pdf</span>
+<span class="font-body-md text-body-md text-chalk-text">Placement Process.pdf</span>
+</li>
+</ul>
+</div>
+</div>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p>&copy; 2025 Campus Placement AI Agent. Built with Microsoft Azure & Foundry.</p>
-        </footer>
-    </div>
+<!-- Recent activity -->
+<div class="bg-surface border border-slate-border rounded-xl shadow-card p-gutter flex flex-col gap-gutter">
+<div class="flex items-center justify-between gap-space-sm pb-space-md border-b border-slate-border">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[18px] text-primary-container">history</span>
+<span class="font-headline-sm text-headline-sm text-chalk-text">Recent activity</span>
+</div>
+<span class="font-body-sm text-body-sm text-titanium-muted">Pipeline events</span>
+</div>
+<div class="flex flex-col gap-space-sm" id="recentActivity">
+<div class="activity-item flex items-start gap-space-md bg-slate-elevated rounded-lg p-space-md">
+<div class="w-8 h-8 rounded-lg bg-surface flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary-container text-[16px]">task_alt</span>
+</div>
+<div class="flex flex-col">
+<p class="font-body-md text-body-md text-chalk-text"><strong>Document Processed:</strong> placement_policy.pdf</p>
+<span class="activity-time font-body-sm text-body-sm text-titanium-muted">2 minutes ago</span>
+</div>
+</div>
+<div class="activity-item flex items-start gap-space-md bg-slate-elevated rounded-lg p-space-md">
+<div class="w-8 h-8 rounded-lg bg-surface flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary-container text-[16px]">task_alt</span>
+</div>
+<div class="flex flex-col">
+<p class="font-body-md text-body-md text-chalk-text"><strong>Query Answered:</strong> CGPA requirements</p>
+<span class="activity-time font-body-sm text-body-sm text-titanium-muted">5 minutes ago</span>
+</div>
+</div>
+<div class="activity-item flex items-start gap-space-md bg-slate-elevated rounded-lg p-space-md">
+<div class="w-8 h-8 rounded-lg bg-surface flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary-container text-[16px]">task_alt</span>
+</div>
+<div class="flex flex-col">
+<p class="font-body-md text-body-md text-chalk-text"><strong>Preparation Plan:</strong> Generated for 30-day timeline</p>
+<span class="activity-time font-body-sm text-body-sm text-titanium-muted">10 minutes ago</span>
+</div>
+</div>
+</div>
+</div>
 
-    <script src="js/dashboard.js"></script>
-</body>
-</html>
+</div>
+<script src="js/layout.js"></script><script src="js/api.js"></script><script src="js/dashboard.js"></script></main></div></body></html>

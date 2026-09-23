@@ -134,5 +134,5 @@ def send_draft(draft_id: str) -> Dict[str, Any]:
     result = _send(draft["contact_email"], draft["subject"], draft["body"])
     draft["status"] = "sent"
     draft["sent_result"] = result
-    update_draft(draft_id, **draft)
+    update_draft(draft_id, **{k: v for k, v in draft.items() if k != "draft_id"})
     return result

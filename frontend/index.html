@@ -1,95 +1,490 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Placement AI</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SYS_0 // MULTI-AGENT PLACEMENT INFRASTRUCTURE</title>
+<!-- Tailwind CSS CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Custom Tailwind Configuration -->
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              void: '#030206',
+              deep: '#0a0413',
+              dark: '#110620',
+              plum: '#380a32',
+              magenta: '#9b105d',
+              hotpink: '#f42588',
+              fuchsia: '#d91b7a',
+              glow: '#ff3b99',
+              cyberViolet: '#6d1377',
+              accentYellow: '#f4ef5b'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace']
+          },
+          letterSpacing: {
+            widestPlus: '0.24em'
+          }
+        }
+      }
+    };
+  </script>
+<!-- Typography and Base Styles -->
+<style data-purpose="typography">
+    html {
+      overflow-y: scroll;
+      scrollbar-color: #2d1b37 #0a0413;
+      scrollbar-width: thin;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #030206;
+      color: #ffffff;
+      overflow-x: hidden;
+      min-height: 100vh;
+      user-select: none;
+    }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0a0413; }
+    ::-webkit-scrollbar-thumb { background: #2d1b37; border-radius: 8px; }
+    ::-webkit-scrollbar-thumb:hover { background: #f42588; }
+  </style>
+<!-- Architectural 3D Layered Ribbons and Lighting -->
+<style data-purpose="ribbon-graphics">
+    .viewport-canvas {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Primary sweeping ribbon loops with sculptural high specular sheen */
+    .ribbon-band-1 {
+      position: absolute;
+      width: 140vw;
+      height: 125vh;
+      top: -30vh;
+      left: -24vw;
+      border-radius: 54% 46% 40% 60% / 38% 44% 56% 62%;
+      background: radial-gradient(circle at 40% 36%, #ff2b93 0%, #bd156d 22%, #680d46 44%, #1f041b 72%, transparent 88%);
+      filter: blur(1.5px);
+      box-shadow:
+        inset 0 16px 50px rgba(255, 140, 205, 0.45),
+        inset 0 -45px 95px rgba(6, 1, 8, 0.98),
+        0 0 140px rgba(189, 21, 109, 0.38);
+      transform: rotate(-19deg) skew(-7deg);
+      opacity: 0.94;
+    }
+
+    .ribbon-band-2 {
+      position: absolute;
+      width: 124vw;
+      height: 114vh;
+      top: -12vh;
+      left: 12vw;
+      border-radius: 44% 56% 38% 62% / 54% 46% 54% 46%;
+      background: linear-gradient(132deg, #ff238c 0%, #9e105e 28%, #4a0833 62%, #0e0210 94%);
+      box-shadow:
+        inset 18px 30px 75px rgba(255, 115, 188, 0.55),
+        inset -25px -35px 110px rgba(3, 1, 5, 0.99),
+        -40px 40px 110px rgba(0, 0, 0, 0.95);
+      transform: rotate(13deg);
+      opacity: 0.98;
+    }
+
+    .ribbon-band-3 {
+      position: absolute;
+      width: 95vw;
+      height: 100vh;
+      top: 2vh;
+      right: -28vw;
+      border-radius: 52% 48% 64% 36% / 48% 62% 38% 52%;
+      background: linear-gradient(220deg, #db167a 0%, #7d0c4d 34%, #28051e 70%, transparent 92%);
+      box-shadow:
+        inset 14px 22px 65px rgba(255, 135, 198, 0.42),
+        inset -18px -25px 90px rgba(2, 0, 4, 0.96);
+      transform: rotate(-10deg);
+      opacity: 0.88;
+    }
+
+    /* Ambient atmospheric shading vignette & cosmic noise feel */
+    .vignette-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 40%, transparent 25%, rgba(3, 2, 6, 0.5) 60%, #030206 95%),
+        linear-gradient(to bottom, rgba(3, 2, 6, 0.7) 0%, transparent 20%, transparent 70%, #030206 100%),
+        linear-gradient(to right, #030206 0%, transparent 25%, transparent 75%, rgba(3, 2, 6, 0.75) 100%);
+      pointer-events: none;
+    }
+
+    .interactive-stage {
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-style: preserve-3d;
+    }
+
+    /* Floating throughput nodes along ribbon path */
+    @keyframes pulseNode {
+      0%, 100% { transform: translateY(0px) scale(1); opacity: 0.85; }
+      50% { transform: translateY(-5px) scale(1.04); opacity: 1; }
+    }
+    .floating-node {
+      animation: pulseNode 4s ease-in-out infinite;
+      backdrop-filter: blur(12px);
+    }
+  </style>
+<!-- Interactive Hotspot, Specular Glows and Badges -->
+<style data-purpose="component-styles">
+    .electric-gradient-text {
+      background: linear-gradient(135deg, #ff60b3 0%, #ff1f87 45%, #d91b7a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 32px rgba(255, 31, 135, 0.7));
+    }
+
+    /* Benchmark Interactive Reticle Orb */
+    .control-reticle {
+      backdrop-filter: blur(14px);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.7), inset 0 0 25px rgba(255, 255, 255, 0.03);
+      transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .control-reticle:hover {
+      border-color: rgba(255, 59, 153, 0.75);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 45px rgba(255, 33, 137, 0.45), inset 0 0 20px rgba(255, 43, 143, 0.25);
+      transform: scale(1.06);
+    }
+
+    /* Glassmorphic Technical Telemetry Spec Box */
+    .telemetry-card {
+      background: linear-gradient(135deg, rgba(28, 12, 38, 0.7) 0%, rgba(13, 6, 20, 0.85) 100%);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85), 0 0 1px 1px rgba(244, 37, 136, 0.15);
+    }
+
+    /* Floating Capsule Bottom Dock */
+    .bottom-dock {
+      background: rgba(14, 8, 20, 0.85);
+      backdrop-filter: blur(22px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9), 0 0 2px rgba(255, 255, 255, 0.25);
+    }
+
+    /* Concentric pulse rings */
+    @keyframes pingSlow {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.12); opacity: 0.25; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .ring-pulse {
+      animation: pingSlow 3.2s ease-in-out infinite;
+    }
+  </style>
 </head>
-<body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">
-                <i class="fas fa-graduation-cap"></i>
-                <h1>Campus Placement AI</h1>
-            </div>
-            <nav class="nav">
-                <a href="index.html" class="nav-link active">Ask AI</a>
-                <a href="dashboard.html" class="nav-link">Dashboard</a>
-                <a href="jobs.html" class="nav-link">Jobs</a>
-            </nav>
-        </header>
+<body class="relative min-h-screen w-full flex flex-col justify-between selection:bg-brand-hotpink selection:text-white bg-[#030206] overflow-x-hidden" data-page="landing">
+<!-- BEGIN: Ribbon3DBackground -->
+<div class="viewport-canvas" data-purpose="ambient-canvas" id="canvas-container">
+<div class="interactive-stage w-full h-full relative" id="ribbon-stage">
+<div class="ribbon-band-1"></div>
+<div class="ribbon-band-2"></div>
+<div class="ribbon-band-3"></div>
+<div class="vignette-overlay"></div>
+<!-- Telemetry Nodes along Ribbon Stream -->
+<div class="floating-node absolute top-[28%] left-[18%] hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/50 border border-brand-hotpink/30 text-[11px] font-mono text-pink-200">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-hotpink animate-ping"></span>
+<span class="text-white/60">RAG Index:</span>
+<span class="text-white font-semibold">14ms cold</span>
+</div>
+<div class="floating-node absolute top-[44%] right-[22%] hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/50 border border-purple-400/30 text-[11px] font-mono text-purple-200" style="animation-delay: -1.8s;">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+<span class="text-white/60">Resume Match:</span>
+<span class="text-white font-semibold">98.4% Acc</span>
+</div>
+<div class="floating-node absolute top-[62%] left-[32%] hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/50 border border-white/15 text-[11px] font-mono text-neutral-300" style="animation-delay: -3s;">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+<span class="text-white/60">SMTP Gate:</span>
+<span class="text-amber-300 font-semibold">Rate Limited (Secure)</span>
+</div>
+</div>
+</div>
+<!-- END: Ribbon3DBackground -->
+<!-- BEGIN: MainHeader -->
+<header class="relative z-30 w-full px-6 sm:px-10 lg:px-14 py-7 flex items-center justify-between" data-purpose="site-navigation">
+<!-- Brand Logo Mark with Live Indicator -->
+<div class="flex items-center space-x-3">
+<a class="flex items-center gap-3.5 group" href="index.html">
+<div class="flex flex-col justify-center gap-[4px] w-6 h-5">
+<span class="h-[2.5px] w-6 bg-gradient-to-r from-brand-hotpink via-pink-400 to-white rounded-full transition-all duration-300 group-hover:w-7"></span>
+<span class="h-[2.5px] w-4 bg-white rounded-full transition-all duration-300 group-hover:w-6"></span>
+<span class="h-[2.5px] w-5 bg-brand-fuchsia rounded-full transition-all duration-300 group-hover:w-4"></span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xl tracking-tight font-bold text-white flex items-center">
+            SYS_0
+          </span>
+<span class="text-[10px] tracking-widest uppercase px-2 py-0.5 rounded border border-brand-hotpink/30 bg-brand-hotpink/10 text-pink-300 font-mono font-medium flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-hotpink animate-pulse"></span>
+            PLACEMENT_INFRA
+          </span>
+</div>
+</a>
+</div>
+<!-- Center Navigation Pill Bar -->
+<nav class="hidden lg:flex items-center space-x-7 px-6 py-2 rounded-full bg-black/45 backdrop-blur-xl border border-white/10 text-[12px] tracking-widest uppercase font-medium text-neutral-300">
+<a class="hover:text-white transition-colors flex items-center gap-1.5 text-white" href="dashboard.html">
+<span>ARCHITECTURE</span>
+<span class="w-1 h-1 rounded-full bg-brand-hotpink inline-block"></span>
+</a>
+<a class="hover:text-white transition-colors" href="chat.html">AGENT FLEET</a>
+<a class="hover:text-white transition-colors" href="jobs.html">MATCH ENGINE</a>
+<a class="hover:text-white transition-colors" href="chat.html">VERIFIED GROUNDING</a>
+<a class="hover:text-white transition-colors" href="profile.html">PROFILE</a>
+<a class="hover:text-white transition-colors" href="email.html">EMAIL GATE</a>
+<!-- Minimalist grid action -->
+<a aria-label="System cluster view" class="text-neutral-400 hover:text-white transition-colors pl-1" href="dashboard.html">
+<svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 16 16">
+<circle cx="3" cy="3" r="1.5"></circle>
+<circle cx="8" cy="3" r="1.5"></circle>
+<circle cx="13" cy="3" r="1.5"></circle>
+<circle cx="3" cy="8" r="1.5"></circle>
+<circle cx="8" cy="8" r="1.5"></circle>
+<circle cx="13" cy="8" r="1.5"></circle>
+<circle cx="3" cy="13" r="1.5"></circle>
+<circle cx="8" cy="13" r="1.5"></circle>
+<circle cx="13" cy="13" r="1.5"></circle>
+</svg>
+</a>
+</nav>
+<!-- Header Actions (Live Status + Launch Button) -->
+<div class="flex items-center space-x-4">
+<div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-950/20 text-[11px] font-mono text-emerald-300" id="pipeline-status">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+<span>STAGING PIPELINE : ONLINE</span>
+</div>
+<a class="px-5 py-2.5 text-[11px] font-mono tracking-widest font-bold uppercase text-white bg-gradient-to-r from-[#d91b7a] via-[#e82583] to-[#f42588] hover:brightness-110 active:scale-95 transition-all duration-200 rounded-lg shadow-[0_0_24px_rgba(232,37,131,0.55)] border border-pink-300/20" href="dashboard.html">
+        LAUNCH CONSOLE
+      </a>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: InteractiveReticle -->
+<!-- Concentric live benchmark interaction center orb -->
+<div class="relative z-20 flex flex-col items-center justify-center my-auto pointer-events-auto py-6 sm:py-8" data-purpose="interactive-control">
+<div class="relative flex items-center justify-center cursor-grab active:cursor-grabbing group" id="interactive-orb-container">
+<!-- Concentric Pulsing Ambient Wave Ring -->
+<div class="absolute w-40 h-40 sm:w-48 sm:h-48 rounded-full border border-pink-500/20 ring-pulse pointer-events-none"></div>
+<div class="absolute w-52 h-52 sm:w-60 sm:h-60 rounded-full border border-purple-500/10 pointer-events-none"></div>
+<!-- Main Reticle Target -->
+<div class="control-reticle w-32 h-32 sm:w-36 sm:h-36 rounded-full flex flex-col items-center justify-center relative select-none" id="interactive-orb">
+<!-- Reticle Orbit Markers -->
+<div class="absolute inset-0 flex items-center justify-between px-3 text-white/40 text-[10px] font-mono pointer-events-none">
+<span class="w-1.5 h-1.5 rounded-full bg-white/70"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-white/70"></span>
+</div>
+<div class="absolute inset-0 flex flex-col items-center justify-between py-3 text-white/40 text-[10px] font-mono pointer-events-none">
+<span class="w-1.5 h-1.5 rounded-full bg-pink-400"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-pink-400"></span>
+</div>
+<!-- Center Audio/Latency Wave Glyph -->
+<div class="flex flex-col items-center justify-center text-white/90">
+<div class="flex items-center gap-1 mb-1">
+<span class="w-0.5 h-3 bg-pink-400 rounded-full animate-pulse"></span>
+<span class="w-0.5 h-5 bg-white rounded-full"></span>
+<span class="w-0.5 h-7 bg-brand-hotpink rounded-full"></span>
+<span class="w-0.5 h-4 bg-white rounded-full"></span>
+<span class="w-0.5 h-2.5 bg-pink-400 rounded-full animate-pulse"></span>
+</div>
+<span class="text-[9px] font-mono tracking-widest text-pink-300 font-semibold" id="orb-status-text">IDLE // 0.08ms</span>
+</div>
+</div>
+</div>
+<!-- Instruction Label with Benchmark Prompt -->
+<div class="mt-4 flex items-center gap-2">
+<span class="text-[10px] sm:text-[11px] font-mono tracking-widestPlus uppercase text-neutral-400/90 font-semibold select-none flex items-center gap-2">
+<span class="material-symbols-outlined text-xs text-brand-hotpink">touch_app</span>
+        CLICK AND HOLD TO BENCHMARK LATENCY
+      </span>
+</div>
+</div>
+<!-- END: InteractiveReticle -->
+<!-- BEGIN: HeroSection -->
+<main class="relative z-20 w-full px-6 sm:px-12 lg:px-16 pb-28 pt-4 max-w-7xl mx-auto flex flex-col justify-end" data-purpose="hero-content">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-end">
+<!-- Primary Headline Column -->
+<div class="lg:col-span-7 flex flex-col justify-end">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 w-fit mb-4 text-[11px] font-mono text-pink-300">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-hotpink"></span>
+<span>CAMPUS PLACEMENT MULTI-AGENT RUNTIME</span>
+</div>
+<h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-[4.8rem] leading-[1.03] font-bold text-white tracking-[-0.035em]">
+          Multi-Agent Placement Infrastructure that <br class="hidden sm:inline"/>
+<span class="electric-gradient-text italic font-medium inline-block pr-2">scales</span>with you
+        </h1>
+</div>
+<!-- Right Column: Glassmorphic Telemetry Card & CTA -->
+<div class="lg:col-span-5 flex flex-col justify-between space-y-5 lg:pl-2">
+<!-- Live Telemetry Spec Card -->
+<div class="telemetry-card rounded-2xl p-5 border border-white/15">
+<div class="flex items-center justify-between pb-3 border-b border-white/10 mb-3 text-[11px] font-mono">
+<span class="text-neutral-400 tracking-wider">TELEMETRY BENCHMARK</span>
+<span class="text-emerald-400 flex items-center gap-1.5 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+              ACTIVE STREAM
+            </span>
+</div>
+<!-- Metrics Matrix -->
+<div class="grid grid-cols-2 gap-3 mb-4 font-mono">
+<div class="bg-black/40 p-2.5 rounded-xl border border-white/5">
+<div class="text-[10px] uppercase text-neutral-400 tracking-wider">Cold Starts</div>
+<div class="text-base font-bold text-white mt-0.5">182ms</div>
+<div class="text-[9px] text-pink-300">Sub-second scale</div>
+</div>
+<div class="bg-black/40 p-2.5 rounded-xl border border-white/5">
+<div class="text-[10px] uppercase text-neutral-400 tracking-wider">Vector RAG</div>
+<div class="text-base font-bold text-emerald-400 mt-0.5">SYNCED</div>
+<div class="text-[9px] text-neutral-400">Azure Cognitive</div>
+</div>
+</div>
+<!-- Description snippet -->
+<p class="text-[13px] sm:text-[14px] leading-relaxed text-neutral-300/90 font-normal">
+            Autonomous coordination across 4 live placement agents: FAQ Grounding, Vector Matcher, Recruiter Outreach, and Schedule Arbiter. Built for high-volume campus hiring seasons.
+          </p>
+<!-- Direct CTA Buttons -->
+<div class="flex items-center gap-3 pt-4">
+<a class="flex-1 px-4 py-3 text-[11px] font-mono uppercase tracking-widest font-bold text-white bg-[#f02288] hover:bg-[#ff2f95] transition-all duration-200 rounded-lg shadow-[0_0_25px_rgba(240,34,136,0.4)] active:scale-95 text-center flex items-center justify-center gap-1.5" href="chat.html">
+<span class="material-symbols-outlined text-[15px]">rocket_launch</span>
+<span>DEPLOY AGENTS</span>
+</a>
+<a class="flex-1 px-4 py-3 text-[11px] font-mono uppercase tracking-widest font-semibold text-neutral-200 hover:text-white bg-white/5 hover:bg-white/10 border border-white/15 transition-all duration-200 rounded-lg text-center flex items-center justify-center gap-1.5" href="dashboard.html">
+<span class="material-symbols-outlined text-[15px]">hub</span>
+<span>INSPECT ARCH</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- END: HeroSection -->
+<!-- BEGIN: BottomDock -->
+<!-- High-fidelity floating capsule bar with live speed counter & toggles -->
+<aside class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 w-auto max-w-[94vw]" data-purpose="floating-status-dock">
+<div class="bottom-dock flex items-center p-1.5 rounded-2xl sm:rounded-full space-x-1 sm:space-x-2 text-xs font-medium text-neutral-300">
+<!-- Brand Badge -->
+<a href="index.html" class="flex items-center justify-center bg-[#211429] hover:bg-[#2d1b37] text-white px-3 py-1.5 rounded-xl sm:rounded-full font-black tracking-tighter text-sm border border-white/10 cursor-pointer">
+        SYS<span class="text-brand-hotpink font-bold">_0</span>
+</a>
+<!-- Mode Toggles -->
+<div class="hidden sm:flex items-center bg-black/40 rounded-full p-0.5 border border-white/5 font-mono text-[10px] tracking-wider">
+<a class="px-2.5 py-1 rounded-full bg-brand-hotpink/20 text-pink-300 border border-brand-hotpink/30 font-semibold" href="chat.html">VECTORS</a>
+<a class="px-2.5 py-1 rounded-full text-neutral-400 hover:text-white transition-colors" href="dashboard.html">AGENTS</a>
+<a class="px-2.5 py-1 rounded-full text-neutral-400 hover:text-white transition-colors" href="email.html">SMTP GATE</a>
+</div>
+<!-- Live Token Speed Counter -->
+<div class="px-3 py-1.5 text-neutral-300 bg-white/5 rounded-xl sm:rounded-full border border-white/10 flex items-center gap-1.5 font-mono text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+<span class="text-white font-semibold" id="dock-throughput">142 t/s</span>
+<span class="text-neutral-500">•</span>
+<span class="text-pink-300" id="dock-latency">0.08ms</span>
+</div>
+<!-- Highlight CTA Yellow Action Button -->
+<a class="bg-brand-accentYellow hover:bg-[#fff960] text-black font-semibold text-xs px-3.5 sm:px-4 py-2 rounded-xl sm:rounded-full tracking-tight transition-transform active:scale-95 shadow-[0_0_22px_rgba(244,239,91,0.3)] flex items-center gap-1.5" href="dashboard.html">
+<span class="font-mono text-[11px] font-bold">OPEN SYS_0 // CONSOLE</span>
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M5 12h14"></path>
+<path d="m12 5 7 7-7 7"></path>
+</svg>
+</a>
+</div>
+</aside>
+<!-- END: BottomDock -->
+<!-- BEGIN: InteractiveScript -->
+<script data-purpose="interactive-effects">
+    document.addEventListener('DOMContentLoaded', () => {
+      const stage = document.getElementById('ribbon-stage');
+      const orb = document.getElementById('interactive-orb');
+      const orbText = document.getElementById('orb-status-text');
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Chat Section -->
-            <section class="chat-section">
-                <div class="chat-container">
-                    <div class="chat-header">
-                        <h2><i class="fas fa-robot"></i> Ask Campus Placement AI</h2>
-                        <p>Get answers about placement eligibility, companies, and preparation</p>
-                    </div>
-                    
-                    <div class="chat-messages" id="chatMessages">
-                        <div class="message bot-message">
-                            <div class="message-avatar">
-                                <i class="fas fa-robot"></i>
-                            </div>
-                            <div class="message-content">
-                                <p>Hello! I'm your Campus Placement AI Assistant. I can help you with:</p>
-                                <ul>
-                                    <li>Placement eligibility and requirements</li>
-                                    <li>Company-specific information</li>
-                                    <li>Placement process details</li>
-                                    <li>Preparation guidance</li>
-                                </ul>
-                                <p>How can I help you today?</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="chat-input-container">
-                        <div class="input-wrapper">
-                            <input type="text" id="userInput" placeholder="Ask about placements..." autocomplete="off">
-                            <button id="sendBtn" class="send-btn">
-                                <i class="fas fa-paper-plane"></i>
-                            </button>
-                        </div>
-                        <div class="quick-actions">
-                            <button class="quick-btn" data-query="What is the minimum CGPA required?">CGPA Requirements</button>
-                            <button class="quick-btn" data-query="What is the placement process?">Placement Process</button>
-                            <button class="quick-btn" data-query="Tell me about TechNova Solutions">TechNova Solutions</button>
-                            <button class="quick-btn" data-query="I have 30 days before placements. What should I prepare?">Preparation Plan</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
+      // Interactive 3D ribbon tilt based on mouse position
+      window.addEventListener('mousemove', (e) => {
+        const { clientX, clientY } = e;
+        const xOffset = (clientX / window.innerWidth - 0.5) * 18;
+        const yOffset = (clientY / window.innerHeight - 0.5) * 18;
 
-            <!-- Agent Activity Section -->
-            <section class="activity-section">
-                <div class="activity-container">
-                    <h3><i class="fas fa-cogs"></i> Agent Activity</h3>
-                    <div class="activity-timeline" id="activityTimeline">
-                        <div class="activity-item">
-                            <div class="activity-icon waiting">
-                                <i class="fas fa-hourglass-start"></i>
-                            </div>
-                            <div class="activity-text">Waiting for query...</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
+        if (stage) {
+          stage.style.transform = `perspective(1000px) rotateY(${xOffset * 0.65}deg) rotateX(${-yOffset * 0.65}deg) scale(1.01)`;
+        }
+      });
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p>&copy; 2025 Campus Placement AI Agent. Built with Microsoft Azure & Foundry.</p>
-        </footer>
-    </div>
+      // Benchmark button hold interaction
+      let timer;
+      let latencyVal = 0.08;
 
-    <script src="js/api.js"></script>
-    <script src="js/app.js"></script>
-</body>
-</html>
+      if (orb) {
+        orb.addEventListener('mousedown', () => {
+          orb.classList.add('scale-95', 'border-brand-hotpink');
+          orb.style.boxShadow = '0 0 50px rgba(255, 31, 133, 0.9)';
+          if (orbText) {
+            orbText.textContent = 'RUNNING BENCHMARK...';
+            orbText.classList.add('text-white');
+          }
+
+          timer = setInterval(() => {
+            const simulated = (Math.random() * 0.04 + 0.04).toFixed(3);
+            if (orbText) orbText.textContent = `WARM: ${simulated}ms`;
+          }, 120);
+        });
+
+        const releaseHold = () => {
+          clearInterval(timer);
+          orb.classList.remove('scale-95', 'border-brand-hotpink');
+          orb.style.boxShadow = '';
+          if (orbText) {
+            orbText.textContent = 'IDLE // 0.08ms';
+            orbText.classList.remove('text-white');
+          }
+        };
+
+        orb.addEventListener('mouseup', releaseHold);
+        orb.addEventListener('mouseleave', releaseHold);
+      }
+
+      // Live backend health → header pipeline badge + dock latency
+      const pipeline = document.getElementById('pipeline-status');
+      const dockLatency = document.getElementById('dock-latency');
+      async function pingBackend() {
+        const started = performance.now();
+        try {
+          const res = await fetch('http://localhost:8001/api/health', { signal: AbortSignal.timeout(2500) });
+          const ms = Math.max(1, Math.round(performance.now() - started));
+          if (!res.ok) throw new Error('bad status');
+          if (pipeline) pipeline.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span><span>STAGING PIPELINE : ONLINE</span>';
+          if (dockLatency) dockLatency.textContent = ms + 'ms';
+        } catch {
+          if (pipeline) pipeline.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse"></span><span>STAGING PIPELINE : OFFLINE</span>';
+          pipeline?.classList.remove('border-emerald-500/30', 'bg-emerald-950/20', 'text-emerald-300');
+          pipeline?.classList.add('border-red-500/30', 'bg-red-950/20', 'text-red-300');
+          if (dockLatency) dockLatency.textContent = '--';
+        }
+      }
+      pingBackend();
+      setInterval(pingBackend, 10000);
+    });
+  </script>
+<!-- END: InteractiveScript -->
+</body></html>

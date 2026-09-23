@@ -1,9 +1,12 @@
 /**
- * API Service for Campus Placement AI
- * Handles communication with the Azure Function backend
+ * SYS_0 CareerOS API Service
+ * Handles communication with the Azure Function backend.
+ *
+ * Override the deployed endpoint via <script>window.CAMPUS_API_BASE_URL='https://.../api'</script>
+ * or by editing the fallback below (defaults to the local dev server).
  */
 
-const API_BASE_URL = (window.CAMPUS_API_BASE_URL || 'https://campus-placement-api-eah8hkg9embeh5e4.koreacentral-01.azurewebsites.net/api');
+const API_BASE_URL = (window.CAMPUS_API_BASE_URL || 'http://localhost:8001/api');
 
 async function request(path, options = {}) {
     const response = await fetch(`${API_BASE_URL}${path}`, {
@@ -39,6 +42,10 @@ async function getRecentActivity() {
 
 async function healthCheck() {
     return request('/health');
+}
+
+async function debug() {
+    return request('/debug');
 }
 
 async function uploadDocument(file) {
@@ -99,8 +106,11 @@ async function listDrafts(status = '') {
     return request(`/email/drafts${qs}`);
 }
 
-async function approveEmail(draftId, contactEmail = '') {
-    return request('/email/approve', { method: 'POST', body: JSON.stringify({ draft_id: draftId, contact_email: contactEmail }) });
+async function approveEmail(draftId, opts = {}) {
+    return request('/email/approve', {
+        method: 'POST',
+        body: JSON.stringify({ draft_id: draftId, contact_email: opts.contactEmail || '', edits: opts.edits || '' }),
+    });
 }
 
 async function sendEmail(draftId) {
@@ -113,6 +123,7 @@ window.CampusPlacementAPI = {
     getSystemStatus,
     getRecentActivity,
     healthCheck,
+    debug,
     uploadDocument,
     getProfile,
     saveProfile,

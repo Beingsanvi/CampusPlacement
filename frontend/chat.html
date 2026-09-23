@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:auto;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}</style><script src="https://cdn.tailwindcss.com"></script><script src="css/theme-config.js"></script><title>Ask AI // Campus Placement AI</title></head><body class="bg-obsidian-base font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-obsidian-base" data-page="agent-chat-rag"><aside id="shell-sidebar"></aside><div class="lg:pl-64"><header id="shell-header"></header><main class="relative pt-16 bg-obsidian-base min-h-screen w-full px-gutter-lg py-gutter"><div class="flex flex-col w-full">
+<!-- Page header -->
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<h1 class="font-headline-lg text-headline-lg text-chalk-text">Ask the placement assistant</h1>
+<p class="font-body-md text-body-md text-titanium-muted">Ask about eligibility rules, backlog policy, company requirements, or request a prep roadmap.</p>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs px-space-md py-1 rounded-full bg-surface border border-slate-border">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="font-label-sm text-label-sm text-chalk-text font-semibold uppercase tracking-wide">Foundry ready</span>
+</div>
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg bg-surface border border-slate-border hover:bg-slate-elevated text-on-surface-variant font-label-sm text-label-sm transition-colors" id="clear-feed-btn">
+<span class="material-symbols-outlined text-[14px]">delete_sweep</span>
+<span>Clear conversation</span>
+</button>
+</div>
+</div>
+<!-- Primary Workspace: Split 12-Column Grid -->
+<div class="grid grid-cols-12 gap-gutter-lg items-start">
+<!-- LEFT PANEL: Telemetry & Sub-Agent Roster (4 Cols) -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<!-- Multi-Agent Fleet Status -->
+<div class="bg-surface border border-slate-border rounded-xl shadow-card p-gutter">
+<div class="flex items-center justify-between gap-space-sm mb-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[18px] text-primary-container">memory</span>
+<span class="font-headline-sm text-headline-sm text-chalk-text">Agents</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary-fixed font-semibold">5 active</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="bg-slate-elevated rounded-lg p-space-md flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-chalk-text uppercase tracking-wide">Main Router</span>
+<span class="font-code-telemetry text-code-telemetry text-titanium-muted">Intent Classifier &amp; Arbiter</span>
+</div>
+<div class="flex items-center gap-space-xs bg-primary-container/10 px-space-sm py-0.5">
+<span class="w-1.5 h-1.5 bg-primary-container rounded-none"></span>
+<span class="font-label-sm text-label-sm text-primary-fixed uppercase font-semibold">ACTIVE</span>
+</div>
+</div>
+<div class="bg-slate-elevated rounded-lg p-space-md flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-chalk-text uppercase tracking-wide">FAQ RAG Agent</span>
+<span class="font-code-telemetry text-code-telemetry text-titanium-muted">Handbooks, Policy &amp; By-Laws</span>
+</div>
+<div class="flex items-center gap-space-xs bg-slate-elevated px-space-sm py-0.5" id="faq-fleet-badge">
+<span class="w-1.5 h-1.5 bg-titanium-muted rounded-none"></span>
+<span class="font-label-sm text-label-sm text-titanium-muted uppercase font-semibold">STANDBY</span>
+</div>
+</div>
+<div class="bg-slate-elevated rounded-lg p-space-md flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-chalk-text uppercase tracking-wide">Preparation Agent</span>
+<span class="font-code-telemetry text-code-telemetry text-titanium-muted">Mock System, Algo &amp; Rubrics</span>
+</div>
+<div class="flex items-center gap-space-xs bg-slate-elevated px-space-sm py-0.5" id="prep-fleet-badge">
+<span class="w-1.5 h-1.5 bg-titanium-muted rounded-none"></span>
+<span class="font-label-sm text-label-sm text-titanium-muted uppercase font-semibold">STANDBY</span>
+</div>
+</div>
+<div class="bg-slate-elevated rounded-lg p-space-md flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-chalk-text uppercase tracking-wide">JobMatch Agent</span>
+<span class="font-code-telemetry text-code-telemetry text-titanium-muted">ATS Vector Fit &amp; JD Scorer</span>
+</div>
+<div class="flex items-center gap-space-xs bg-slate-elevated px-space-sm py-0.5">
+<span class="w-1.5 h-1.5 bg-titanium-muted rounded-none"></span>
+<span class="font-label-sm text-label-sm text-titanium-muted uppercase font-semibold">READY</span>
+</div>
+</div>
+</div>
+<!-- System Indices Telemetry Card -->
+<div class="mt-gutter pt-space-md bg-surface-container-low p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-titanium-muted uppercase">AZURE AI SEARCH</span>
+<span class="font-code-telemetry text-code-telemetry text-primary-fixed" id="search-health">HEALTH: --</span>
+</div>
+<div class="bg-slate-elevated rounded-lg p-space-sm flex flex-col gap-space-xs font-code-telemetry text-code-telemetry">
+<div class="flex justify-between text-bone-dim">
+<span>INDEX:</span>
+<span class="text-chalk-text">placement-documents</span>
+</div>
+<div class="flex justify-between text-bone-dim">
+<span>SYNC_STATUS:</span>
+<span class="text-primary-fixed" id="sync-status">1,420 DOCS SYNCD</span>
+</div>
+<div class="flex justify-between text-bone-dim">
+<span>VECTOR_DIM:</span>
+<span class="text-chalk-text">1536 [ada-002]</span>
+</div>
+</div>
+<div class="flex items-center justify-between mt-space-xs">
+<span class="font-label-sm text-label-sm text-titanium-muted uppercase">FOUNDRY INFERENCE</span>
+<span class="font-code-telemetry text-code-telemetry text-chalk-text" id="foundry-model">GPT-4.1-MINI</span>
+</div>
+<!-- Micro Performance Sparkline Chart -->
+<div class="bg-slate-elevated rounded-lg p-space-sm">
+<div class="flex items-center justify-between mb-space-xs font-code-telemetry text-code-telemetry">
+<span class="text-titanium-muted">LATENCY RUN:</span>
+<span class="text-primary-fixed font-semibold" id="latency-run">--ms</span>
+</div>
+<svg class="w-full h-8 text-primary-container" fill="none" preserveaspectratio="none" viewbox="0 0 200 32">
+<path d="M0 24 L20 22 L40 26 L60 14 L80 18 L100 8 L120 19 L140 12 L160 16 L180 6 L200 11" stroke="currentColor" stroke-linecap="square" stroke-width="1.5"></path>
+<path d="M0 24 L20 22 L40 26 L60 14 L80 18 L100 8 L120 19 L140 12 L160 16 L180 6 L200 11 L200 32 L0 32 Z" fill="currentColor" opacity="0.08"></path>
+</svg>
+</div>
+</div>
+</div>
+<!-- Quick Prompt Triggers: Instant Dispatch Nodes -->
+<div class="bg-surface border border-slate-border rounded-xl shadow-card p-gutter">
+<div class="flex items-center justify-between gap-space-sm mb-space-md">
+<span class="font-headline-sm text-headline-sm text-chalk-text">Quick prompts</span>
+<span class="font-label-sm text-label-sm text-titanium-muted">Tap to ask</span>
+</div>
+<div class="flex flex-col gap-space-sm" id="preset-container">
+<button class="preset-trigger text-left bg-slate-elevated hover:bg-slate-border p-space-md rounded-lg transition-all group" data-prompt="I have 30 days before placements. What should I prepare? Create a complete technical roadmap.">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm uppercase text-primary-fixed font-semibold">SEQ_01</span>
+<span class="font-code-telemetry text-code-telemetry text-titanium-muted group-hover:text-chalk-text transition-colors">PREPARATION AGENT</span>
+</div>
+<p class="font-body-md text-body-md text-chalk-text group-hover:text-primary-fixed transition-colors">Interview Prep: SDE-1 System Design Roadmap</p>
+</button>
+<button class="preset-trigger text-left bg-slate-elevated hover:bg-slate-border p-space-md rounded-lg transition-all group" data-prompt="What is the minimum CGPA required and what are the eligibility rules, backlog policy, and dream offer caps?">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm uppercase text-primary-fixed font-semibold">SEQ_02</span>
+<span class="font-code-telemetry text-code-telemetry text-titanium-muted group-hover:text-chalk-text transition-colors">FAQ RAG AGENT</span>
+</div>
+<p class="font-body-md text-body-md text-chalk-text group-hover:text-primary-fixed transition-colors">Placement Eligibility Rules 2025</p>
+</button>
+<button class="preset-trigger text-left bg-slate-elevated hover:bg-slate-border p-space-md rounded-lg transition-all group" data-prompt="What are the off-campus vs on-campus placement policy guidelines? Explain NOC issuance and attendance exemptions.">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm uppercase text-primary-fixed font-semibold">SEQ_03</span>
+<span class="font-code-telemetry text-code-telemetry text-titanium-muted group-hover:text-chalk-text transition-colors">CDC DIRECTIVES</span>
+</div>
+<p class="font-body-md text-body-md text-chalk-text group-hover:text-primary-fixed transition-colors">Off-campus vs On-campus policy</p>
+</button>
+<button class="preset-trigger text-left bg-slate-elevated hover:bg-slate-border p-space-md rounded-lg transition-all group" data-prompt="Generate a complete 4-week technical mock interview roadmap for Big Tech Tier-1 placements.">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm uppercase text-primary-fixed font-semibold">SEQ_04</span>
+<span class="font-code-telemetry text-code-telemetry text-titanium-muted group-hover:text-chalk-text transition-colors">RUBRICS 2025</span>
+</div>
+<p class="font-body-md text-body-md text-chalk-text group-hover:text-primary-fixed transition-colors">Mock Technical Rounds Roadmap</p>
+</button>
+</div>
+</div>
+<!-- Live Context Target Card -->
+<div class="bg-surface border border-slate-border rounded-xl shadow-card p-gutter">
+<div class="flex items-center gap-space-sm pb-space-md mb-space-md border-b border-slate-border">
+<span class="material-symbols-outlined text-[18px] text-primary-container">person_search</span>
+<span class="font-headline-sm text-headline-sm text-chalk-text">Your profile</span>
+</div>
+<div class="flex items-center gap-space-md bg-slate-elevated rounded-lg p-space-md" id="candidate-focus">
+<div class="w-12 h-12 rounded-none bg-slate-elevated flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-chalk-text text-[22px]">person</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-chalk-text truncate" id="candidate-name">No profile loaded</span>
+<span class="font-code-telemetry text-code-telemetry text-titanium-muted truncate" id="candidate-sub">PLACEMENT_ENGINE</span>
+<span class="font-label-sm text-label-sm text-primary-fixed mt-space-xs" id="candidate-cgpa">SYNC A PROFILE TO ACTIVATE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT PANEL: Main Chat Stream & Real-Time Composer (8 Cols) -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-gutter">
+<!-- Chat Stream Window -->
+<div class="bg-surface border border-slate-border rounded-xl shadow-card p-gutter flex flex-col gap-gutter min-h-[580px] max-h-[min(78vh,860px)] overflow-y-auto overscroll-contain" id="message-container">
+<div class="flex items-center justify-center gap-space-md my-space-xs">
+<div class="h-px bg-slate-border flex-1"></div>
+<span class="font-code-telemetry text-code-telemetry text-titanium-muted uppercase tracking-widest" id="kernel-marker">[KERNEL REHYDRATED // WAITING FOR OPERATOR]</span>
+<div class="h-px bg-slate-border flex-1"></div>
+</div>
+<!-- Assistant Welcome -->
+<div class="flex flex-col items-start gap-space-xs self-start max-w-full w-full">
+<div class="w-full bg-surface-container-low px-space-md py-space-sm flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-md flex-wrap">
+<span class="font-label-sm text-label-sm uppercase text-chalk-text font-semibold flex items-center gap-1">
+<span class="w-2 h-2 bg-primary-container"></span>
+                AGENT: MAIN ROUTER
+              </span>
+<span class="font-code-telemetry text-code-telemetry text-bone-dim">SRC: Azure AI Search / placement-documents</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm text-titanium-muted uppercase">CONFIDENCE:</span>
+<span class="font-code-telemetry text-code-telemetry text-primary-fixed font-semibold">--</span>
+<span class="text-slate-border">|</span>
+<span class="font-code-telemetry text-code-telemetry text-titanium-muted">--ms</span>
+</div>
+</div>
+<div class="bg-slate-elevated rounded-xl p-gutter-lg w-full text-chalk-text">
+<p class="font-body-md text-body-md text-bone-dim leading-relaxed">
+                I'm the SYS_0 CareerOS placement engine. Ask me about <strong class="text-chalk-text">eligibility rules</strong>, <strong class="text-chalk-text">backlog policy</strong>, <strong class="text-chalk-text">company-specific requirements</strong>, or request a <strong class="text-primary-fixed">30-day preparation roadmap</strong>. Use the trigger sequences on the left to dispatch a query.
+              </p>
+</div>
+</div>
+</div>
+<!-- INTERACTIVE COMPOSER CONSOLE -->
+<div class="bg-surface border border-slate-border rounded-xl shadow-card p-gutter flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex flex-wrap items-center gap-space-sm">
+<button class="composer-toggle flex items-center gap-space-xs px-space-md py-1 bg-primary-container text-obsidian-base font-label-sm text-label-sm uppercase font-semibold transition-all" id="toggle-deep-docs">
+<span class="material-symbols-outlined text-[14px]">library_books</span>
+<span>[RAG: DEEP DOCS]</span>
+</button>
+<button class="composer-toggle flex items-center gap-space-xs px-space-md py-1 bg-slate-elevated text-chalk-text hover:bg-surface-container-high font-label-sm text-label-sm uppercase font-medium transition-all" id="toggle-plan-mode">
+<span class="material-symbols-outlined text-[14px]">schema</span>
+<span>[PLAN MODE]</span>
+</button>
+<button class="composer-toggle flex items-center gap-space-xs px-space-md py-1 bg-primary-container text-obsidian-base font-label-sm text-label-sm uppercase font-semibold transition-all" id="toggle-strict">
+<span class="material-symbols-outlined text-[14px]">policy</span>
+<span>[STRICT GROUNDING]</span>
+</button>
+</div>
+<div class="flex items-center gap-space-xs font-code-telemetry text-code-telemetry text-titanium-muted">
+<span>TOKENS:</span>
+<span class="text-chalk-text font-medium" id="token-count">388 / 8,192</span>
+</div>
+</div>
+<div class="relative w-full bg-slate-elevated rounded-xl p-space-md flex flex-col gap-space-sm">
+<textarea class="w-full bg-transparent text-chalk-text placeholder-titanium-muted font-body-md text-body-md focus:outline-none resize-none py-1" id="prompt-input" placeholder="Ask questions on CDC placement policy, trigger custom syllabus mock, or test candidate fit..." rows="3"></textarea>
+<div class="flex items-center justify-between gap-space-md">
+<span class="font-body-sm text-body-sm text-titanium-muted">Press Enter to send · Shift+Enter for a new line</span>
+<button class="shrink-0 bg-primary hover:bg-primary-fixed-dim text-on-primary px-gutter py-space-sm rounded-lg font-label-md text-label-md font-semibold flex items-center gap-space-xs transition-colors" id="submit-btn">
+<span>Send message</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-space-md text-titanium-muted">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-sm text-label-sm uppercase">SAMPLE FILTERS:</span>
+<button class="hint-pill bg-slate-elevated hover:text-chalk-text px-space-sm py-0.5 font-code-telemetry text-code-telemetry text-bone-dim">
+              --target=Amazon_Tier1
+            </button>
+<button class="hint-pill bg-slate-elevated hover:text-chalk-text px-space-sm py-0.5 font-code-telemetry text-code-telemetry text-bone-dim">
+              --role=SDE_Backend
+            </button>
+<button class="hint-pill bg-slate-elevated hover:text-chalk-text px-space-sm py-0.5 font-code-telemetry text-code-telemetry text-bone-dim">
+              --strict-rag-only
+            </button>
+</div>
+<div class="flex items-center gap-space-sm font-code-telemetry text-code-telemetry">
+<span class="flex items-center gap-1 text-primary-fixed">
+<span class="w-1.5 h-1.5 bg-primary-container"></span>
+              FOUNDRY READY
+            </span>
+<span class="text-slate-border">|</span>
+<span>STREAM: CHUNK_BY_TOKEN</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="js/layout.js"></script><script src="js/api.js"></script><script src="js/chat.js"></script></main></div></body></html>

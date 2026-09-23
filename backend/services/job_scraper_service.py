@@ -128,7 +128,7 @@ def _fetch_jobicy() -> List[Job]:
             title=j.get("jobTitle", ""),
             company=j.get("companyName", ""),
             location=j.get("jobGeo") or "Remote",
-            remote="remote" in str(j.get("jobGeo", "")).lower() or True,
+            remote=True,
             salary=j.get("salaryMax") or j.get("salaryMin") or "",
             url=j.get("url", ""),
             description=j.get("jobDescription", "") or "",
@@ -276,5 +276,5 @@ def search_jobs(q: str = "", location: str = "", remote_only: bool = False, limi
             continue
         matched.append(job)
 
-    matched.sort(key=lambda j: j.id, reverse=True)
+    matched.sort(key=lambda j: j.posted_date or "", reverse=True)
     return matched[:limit]

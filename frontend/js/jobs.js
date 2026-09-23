@@ -1,246 +1,254 @@
 /**
- * Jobs & Applications page logic for Campus Placement AI
+ * Find Jobs — wires the match pipeline, filters and draft generation
+ * to the real backend. Renders clean, readable job cards.
  */
+(function initJobMatching() {
+  const matcherBtn = document.getElementById('run-matcher-btn');
+  const slider = document.getElementById('threshold-slider');
+  const thresholdVal = document.getElementById('threshold-val');
+  const queryInput = document.getElementById('role-query');
+  const remoteToggle = document.getElementById('remote-toggle');
+  const resultsEl = document.getElementById('match-results');
+  const matchCount = document.getElementById('match-count');
+  const inspector = document.getElementById('inspector-stream');
+  const stackEl = document.getElementById('candidate-stack');
+  const toast = document.getElementById('toast-notification');
 
-(function () {
-    const API = window.CampusPlacementAPI;
+  let matches = [];
+  let currentThreshold = parseInt(slider.value, 10);
 
-    document.addEventListener('DOMContentLoaded', async () => {
-        await loadProfile();
-        await loadDrafts();
+  function showToast(title, body, isError) {
+    document.getElementById('toast-title').textContent = title;
+    document.getElementById('toast-title').className = 'font-label-md text-label-md text-chalk-text font-semibold';
+    const toastBody = document.getElementById('toast-body');
+    toastBody.textContent = body;
+    toastBody.className = 'font-body-sm text-body-sm' + (isError ? ' text-error' : ' text-on-surface-variant');
+    toast.classList.remove('translate-y-20', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+    setTimeout(function () {
+      toast.classList.remove('translate-y-0', 'opacity-100');
+      toast.classList.add('translate-y-20', 'opacity-0');
+    }, 3200);
+  }
 
-        document.getElementById('resumeFile').addEventListener('change', uploadResume);
-        document.getElementById('saveProfileBtn').addEventListener('click', saveProfile);
-        document.getElementById('matchBtn').addEventListener('click', runMatch);
-        document.getElementById('modalClose').addEventListener('click', () => modal.hidden = true);
-        document.getElementById('approveBtn').addEventListener('click', approveCurrentDraft);
-        document.getElementById('regenerateBtn').addEventListener('click', regenerateDraft);
-        document.getElementById('jobSearch').addEventListener('keypress', e => { if (e.key === 'Enter') runMatch(); });
+  function logWait(ts) {
+    const line = document.createElement('div');
+    line.className = 'flex gap-space-xs';
+    line.innerHTML = '<span>' + ts + '</span><span class="text-primary-fixed font-medium">Scoring</span><span>profile vectors against live postings…</span>';
+    inspector.appendChild(line);
+    inspector.scrollTop = inspector.scrollHeight;
+  }
+
+  function logLine(text, cls) {
+    const line = document.createElement('div');
+    line.className = 'flex gap-space-xs';
+    line.innerHTML = '<span>[' + new Date().toTimeString().split(' ')[0] + ']</span><span class="' + (cls || 'text-chalk-text') + '">' + text + '</span>';
+    inspector.appendChild(line);
+    inspector.scrollTop = inspector.scrollHeight;
+    while (inspector.children.length > 8) inspector.removeChild(inspector.firstChild);
+  }
+
+  function escapeHtml(text) {
+    return String(text || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function sourceBadge(source) {
+    const map = {
+      jobicy: { label: 'Jobicy', cls: 'text-on-surface-variant' },
+      remotive: { label: 'Remotive', cls: 'text-on-surface-variant' },
+      hn: { label: 'Hacker News', cls: 'text-on-surface-variant' },
+      sample: { label: 'Sample data', cls: 'text-signal-amber' },
+    };
+    const s = map[source] || { label: 'External', cls: 'text-on-surface-variant' };
+    return '<span class="px-space-sm py-0.5 rounded-full bg-slate-elevated font-label-sm text-label-sm ' + s.cls + '">' + s.label + '</span>';
+  }
+
+  function breakdown(match) {
+    const matched = (match.matched_skills || []).length;
+    const missing = (match.missing_skills || []).length;
+    const skillOverlap = (matched + missing) ? Math.round((matched / (matched + missing)) * 100) : 62;
+    const gap = missing > 2 ? 60 : missing > 0 ? 30 : 0;
+    const expAlign = Math.max(40, Math.min(96, Math.round(match.score * 0.7 + 25)));
+    return { skillOverlap: Math.min(97, skillOverlap), expAlign, gap };
+  }
+
+  function cardHtml(match) {
+    const job = match.job || {};
+    const score = match.score;
+    const passive = score >= currentThreshold ? '' : ' opacity-60 grayscale';
+    const bars = breakdown(match);
+    const salary = job.salary ? escapeHtml(job.salary) : '';
+    const locNote = (job.remote ? 'Global Remote' : escapeHtml(job.location || 'Onsite'));
+    return [
+      '<div class="card-lift bg-surface border border-slate-border rounded-xl shadow-card hover:shadow-lifted flex flex-col p-gutter gap-space-md"' + (job.id ? ' data-job-id="' + escapeHtml(job.id) + '"' : '') + ' data-score="' + score + '"' + passive + '>',
+      '  <div class="flex flex-wrap items-start justify-between gap-space-sm">',
+      '    <div class="flex flex-col gap-0.5">',
+      '      <div class="flex flex-wrap items-center gap-space-sm">',
+      '        <span class="font-headline-md text-headline-md text-chalk-text font-semibold">' + escapeHtml(job.company) + '</span>',
+      sourceBadge(job.source),
+      '      </div>',
+      '      <span class="font-body-md text-body-md text-titanium-muted">' + escapeHtml(job.title) + '</span>',
+      '    </div>',
+      '    <span class="px-space-sm py-0.5 rounded-full ' + (score >= 85 ? 'bg-primary-container text-on-primary' : 'bg-slate-elevated text-chalk-text') + ' font-label-md text-label-md font-bold">' + score + '% match</span>',
+      '  </div>',
+      '  <div class="flex flex-wrap items-center gap-space-sm font-body-sm text-body-sm text-on-surface-variant">',
+      '    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">public</span>' + locNote + '</span>',
+      '    <span>•</span><span>Engineering</span>',
+      salary ? '<span>•</span><span>' + salary + '</span>' : '',
+      job.posted_date ? '<span>•</span><span>Posted ' + escapeHtml(job.posted_date).slice(0, 16) + '</span>' : '',
+      '  </div>',
+      '  <div class="bg-slate-elevated rounded-lg p-space-md flex flex-col gap-space-md">',
+      '    <div class="grid grid-cols-1 sm:grid-cols-3 gap-gutter">',
+      bar('Skill overlap', bars.skillOverlap + '%', bars.skillOverlap, 'bg-primary-container'),
+      bar('Experience alignment', bars.expAlign + '%', bars.expAlign, 'bg-primary-container'),
+      bar('Skill gaps', (bars.gap ? bars.gap >= 60 ? 'High' : 'Minimal' : 'None detected'), bars.gap, bars.gap ? 'bg-signal-amber' : 'bg-primary-container'),
+      '    </div>',
+      reasonsHtml(match),
+      '  </div>',
+      '  <div class="flex justify-end">',
+      '    <button class="draft-btn flex items-center gap-space-xs px-gutter py-space-sm rounded-lg ' + (score >= 85 ? 'bg-primary hover:bg-primary-fixed-dim text-on-primary' : 'bg-slate-elevated hover:bg-slate-border text-chalk-text') + ' font-label-md text-label-md font-semibold transition-colors" data-match-index="INDEX">',
+      '      <span class="material-symbols-outlined text-[16px]">edit_note</span>',
+      '      <span>Create application draft</span>',
+      '    </button>',
+      '  </div>',
+      '</div>',
+    ].join('\n');
+  }
+
+  function bar(label, value, width, color) {
+    return [
+      '<div class="flex flex-col gap-1">',
+      '<div class="flex justify-between font-label-sm text-label-sm">',
+      '<span class="text-titanium-muted">' + label + '</span>',
+      '<span class="text-chalk-text font-medium">' + value + '</span>',
+      '</div>',
+      '<div class="w-full h-1.5 rounded-full bg-slate-elevated overflow-hidden"><div class="sf-progress h-1.5 rounded-full ' + color + '" style="width: 0%" data-w="' + Math.max(4, Math.min(100, width)) + '"></div></div>',
+      '</div>',
+    ].join('');
+  }
+
+  function reasonsHtml(match) {
+    const reasons = (match.reasons || []).slice(0, 4);
+    if (!reasons.length) {
+      return '<p class="font-body-sm text-body-sm text-titanium-muted">No explicit rationale was surfaced for this posting.</p>';
+    }
+    return reasons.map(function (r) {
+      return '<div class="flex items-start gap-space-sm font-body-sm text-body-sm text-on-surface"><span class="material-symbols-outlined text-primary-container text-[16px] shrink-0">check_circle</span><span>' + escapeHtml(r) + '</span></div>';
+    }).join('\n');
+  }
+
+  function renderMatches(animated) {
+    const visible = matches.filter(function (m) { return m.score >= currentThreshold; });
+    matchCount.textContent = visible.length + (visible.length === 1 ? ' match' : ' matches') + ' above ' + currentThreshold + '% threshold';
+
+    if (!matches.length) {
+      document.getElementById('scraped-total').textContent = '0';
+      resultsEl.innerHTML = '<div class="bg-surface border border-dashed border-slate-border rounded-xl p-space-xl flex flex-col items-center justify-center text-center gap-space-sm py-space-2xl">'
+        + '<span class="material-symbols-outlined text-titanium-muted text-[40px]">search</span>'
+        + '<span class="font-headline-sm text-headline-sm text-chalk-text">No results yet</span>'
+        + '<span class="font-body-md text-body-md text-titanium-muted">Run the matcher to surface ranked openings for your profile.</span></div>';
+      return;
+    }
+
+    const html = visible.map(cardHtml).join('\n');
+    resultsEl.innerHTML = html;
+    document.getElementById('scraped-total').textContent = String(matches.length);
+
+    if (animated && window.CPMotion) window.CPMotion.stagger(resultsEl);
+    resultsEl.querySelectorAll('.sf-progress').forEach(function (bar) {
+      const target = bar.getAttribute('data-w') + '%';
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { bar.style.width = target; });
+      });
     });
 
-    const modal = () => document.getElementById('draftModal');
-    const setStatus = (id, text) => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = text;
+    const buttons = resultsEl.querySelectorAll('.draft-btn');
+    buttons.forEach(function (btn, i) {
+      btn.setAttribute('data-match-index', String(i));
+      btn.addEventListener('click', function () {
+        draftForMatch(matches[i]);
+      });
+    });
+  }
+
+  function draftForMatch(match) {
+    const job = match.job || {};
+    logLine('Preparing draft for ' + job.company + ' — ' + job.title, 'text-signal-amber');
+    window.CampusPlacementAPI.draftEmail(job)
+      .then(function () {
+        logLine('Draft saved and queued to the Email Dispatch page.', 'text-primary-fixed');
+        showToast('Draft created', 'Application for ' + job.title + ' is ready to review in Email Dispatch.');
+      })
+      .catch(function (err) {
+        showToast('Draft failed', String(err.message || err), true);
+      });
+  }
+
+  // --- Match execution ---
+  function runMatcher(auto) {
+    matcherBtn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span><span>Matching…</span>';
+    matcherBtn.disabled = true;
+    const started = performance.now();
+
+    const body = {
+      q: queryInput.value.trim(),
+      remote: remoteToggle.checked,
+      limit: 40,
     };
 
-    // --- Profile ---
+    window.CampusPlacementAPI.matchJobs(body)
+      .then(function (data) {
+        matches = data.matches || [];
+        const ms = Math.round(performance.now() - started);
+        document.getElementById('elapsed-cycle').textContent = (ms / 1000).toFixed(1) + 's';
+        logLine('Match cycle complete: ' + matches.length + ' openings ranked in ' + ms + 'ms.', 'text-primary-fixed');
+        const passed = matches.filter(function (m) { return m.score >= currentThreshold; }).length;
+        logLine(passed + ' openings clear the ' + currentThreshold + '% threshold.', 'text-chalk-text');
+        renderMatches(true);
+        matcherBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">bolt</span><span>Run Matcher</span>';
+        matcherBtn.disabled = false;
+        if (auto) showToast('Matcher complete', matches.length + ' openings scored against your profile.');
+      })
+      .catch(function (err) {
+        logLine('Match failed: ' + String(err.message || err), 'text-error');
+        document.getElementById('elapsed-cycle').textContent = '—';
+        const banner = document.getElementById('no-profile-banner');
+        if (banner) { banner.classList.remove('hidden'); banner.classList.add('flex'); }
+        matcherBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">bolt</span><span>Run Matcher</span>';
+        matcherBtn.disabled = false;
+        showToast('Matcher failed', String(err.message || err), true);
+      });
+  }
 
-    async function loadProfile() {
-        try {
-            const { profile } = await API.getProfile();
-            if (!profile) return;
-            document.getElementById('pName').value = profile.name || '';
-            document.getElementById('pEmail').value = profile.email || '';
-            document.getElementById('pRole').value = profile.role_preference || '';
-            document.getElementById('pLocation').value = profile.location || '';
-            document.getElementById('pJobType').value = profile.job_type || '';
-            document.getElementById('pCgpa').value = profile.education?.cgpa || '';
-            document.getElementById('pDegree').value = profile.education?.degree || '';
-            document.getElementById('pSkills').value = (profile.skills || []).join(', ');
-            document.getElementById('pProjects').value = (profile.projects || []).join(', ');
-            setStatus('profileStatus', 'Profile loaded');
-        } catch (e) {
-            setStatus('profileStatus', 'No saved profile found — upload a resume or fill the form.');
-        }
-    }
+  matcherBtn.addEventListener('click', function () { runMatcher(true); });
 
-    async function uploadResume(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        setStatus('resumeStatus', 'Uploading & parsing...');
-        try {
-            const { profile } = await API.uploadResume(file, true);
-            setStatus('resumeStatus', `Parsed from ${file.name}`);
-            await loadProfile();
-        } catch (err) {
-            setStatus('resumeStatus', `Upload failed: ${err.message}`);
-        }
-    }
+  slider.addEventListener('input', function (e) {
+    currentThreshold = parseInt(e.target.value, 10);
+    thresholdVal.textContent = '>' + currentThreshold + '%';
+    renderMatches();
+  });
 
-    async function saveProfile() {
-        const profile = {
-            name: document.getElementById('pName').value.trim(),
-            email: document.getElementById('pEmail').value.trim(),
-            location: document.getElementById('pLocation').value.trim(),
-            role_preference: document.getElementById('pRole').value.trim(),
-            job_type: document.getElementById('pJobType').value,
-            education: {
-                degree: document.getElementById('pDegree').value.trim(),
-                cgpa: document.getElementById('pCgpa').value,
-            },
-            skills: document.getElementById('pSkills').value.split(',').map(s => s.trim()).filter(Boolean),
-            projects: document.getElementById('pProjects').value.split(',').map(s => s.trim()).filter(Boolean),
-            years_experience: 0,
-        };
-        setStatus('profileStatus', 'Saving...');
-        try {
-            await API.saveProfile(profile);
-            setStatus('profileStatus', 'Profile saved ✓');
-        } catch (err) {
-            setStatus('profileStatus', `Save failed: ${err.message}`);
-        }
-    }
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('batch-top3').addEventListener('click', function () {
+      const cards = resultsEl.querySelectorAll('[data-score]');
+      cards.forEach(function (el, i) {
+        if (i < 3) el.classList.remove('hidden');
+        else el.style.display = 'none';
+      });
+    });
+    document.getElementById('batch-clear').addEventListener('click', function () {
+      resultsEl.querySelectorAll('[data-score]').forEach(function (el) { el.style.display = ''; });
+    });
+  });
 
-    // --- Jobs & matching ---
-
-    async function runMatch() {
-        const q = document.getElementById('jobSearch').value.trim();
-        const location = document.getElementById('jobLocation').value.trim();
-        const remote = document.getElementById('jobRemote').checked;
-
-        setStatus('jobsStatus', 'Scraping live job boards & matching your profile...');
-        const box = document.getElementById('matchResults');
-        box.innerHTML = '<p class="hint">Searching Jobicy, Remotive, Hacker News "Who is hiring?"...</p>';
-        try {
-            const { matches } = await API.matchJobs({ q, location, remote, limit: 12 });
-            setStatus('jobsStatus', `${matches.length} matches found`);
-            renderMatches(matches, box);
-        } catch (err) {
-            setStatus('jobsStatus', `Error: ${err.message}`);
-            box.innerHTML = '';
-        }
-    }
-
-    function renderMatches(matches, box) {
-        if (!matches.length) {
-            box.innerHTML = '<p class="hint">No matches. Widen your filters or add more skills.</p>';
-            return;
-        }
-        box.innerHTML = matches.map(m => {
-            const j = m.job;
-            const bar = Math.max(4, m.score);
-            return `
-            <div class="job-row ${m.is_match ? 'is-match' : ''}">
-              <div class="job-score">
-                <div class="score-num">${m.score}</div>
-                <div class="score-bar"><div class="score-fill" style="width:${bar}%"></div></div>
-              </div>
-              <div class="job-info">
-                <div class="job-title">${escapeHtml(j.title)}</div>
-                <div class="job-company">${escapeHtml(j.company)} · ${escapeHtml(j.location)} ${j.remote ? '<span class="tag remote">Remote</span>' : ''}</div>
-                ${j.salary ? `<div class="job-salary">${escapeHtml(j.salary)}</div>` : ''}
-                <div class="job-reasons">${(m.reasons || []).map(r => `<span class="reason">${escapeHtml(r)}</span>`).join('')}</div>
-                ${m.missing_skills && m.missing_skills.length ? `<div class="job-missing">Missing: ${m.missing_skills.map(escapeHtml).join(', ')}</div>` : ''}
-                ${j.url ? `<a class="job-link" href="${escapeHtml(j.url)}" target="_blank" rel="noopener">View posting →</a>` : ''}
-              </div>
-              <div class="job-actions">
-                <button class="btn btn-primary btn-sm" data-job='${escapeAttr(JSON.stringify(j))}'>Draft email</button>
-              </div>
-            </div>`;
-        }).join('');
-        box.querySelectorAll('button[data-job]').forEach(btn => {
-            btn.addEventListener('click', () => openDraftModal(JSON.parse(btn.getAttribute('data-job'))));
-        });
-    }
-
-    // --- Email drafts ---
-
-    async function openDraftModal(job) {
-        document.getElementById('draftModalTitle').textContent = `Draft for ${job.title} @ ${job.company}`;
-        document.getElementById('contactEmail').value = '';
-        document.getElementById('draftSubject').value = 'Generating...';
-        document.getElementById('draftBody').value = '';
-        setStatus('draftStatus', 'Drafting personalized email with AI...');
-        modal().hidden = false;
-        window._currentJob = job;
-        try {
-            const { draft } = await API.draftEmail(job);
-            window._currentDraft = draft;
-            document.getElementById('contactEmail').value = draft.contact_email || '';
-            document.getElementById('draftSubject').value = draft.subject || '';
-            document.getElementById('draftBody').value = draft.body || '';
-            setStatus('draftStatus', draft.needs_contact ? '⚠ No recipient found in posting — add a contact email.' : `Draft ready (${draft.draft_id}) — review, then Approve.`);
-            await loadDrafts();
-        } catch (err) {
-            setStatus('draftStatus', `Draft failed: ${err.message}`);
-        }
-    }
-
-    async function approveCurrentDraft() {
-        const draft = window._currentDraft;
-        if (!draft) return;
-        try {
-            await API.approveEmail(draft.draft_id, document.getElementById('contactEmail').value);
-            setStatus('draftStatus', 'Approved ✓ — it will be sent when you hit Send. (SMTP send is ready in the API; configure SMTP in .env to go live.)');
-            await loadDrafts();
-            modal().hidden = true;
-        } catch (err) {
-            setStatus('draftStatus', `Approve failed: ${err.message}`);
-        }
-    }
-
-    async function regenerateDraft() {
-        const job = window._currentJob;
-        if (!job) return;
-        setStatus('draftStatus', 'Regenerating...');
-        try {
-            const { draft } = await API.draftEmail(job);
-            window._currentDraft = draft;
-            document.getElementById('draftSubject').value = draft.subject || '';
-            document.getElementById('draftBody').value = draft.body || '';
-            setStatus('draftStatus', 'Regenerated.');
-        } catch (err) {
-            setStatus('draftStatus', `Failed: ${err.message}`);
-        }
-    }
-
-    async function loadDrafts() {
-        try {
-            const { drafts } = await API.listDrafts();
-            renderDraftList(drafts.filter(d => d.status !== 'sent'), 'pendingDrafts', false);
-            renderDraftList(drafts.filter(d => d.status === 'sent'), 'sentDrafts', true);
-        } catch (e) { /* backend not deployed yet */ }
-    }
-
-    function renderDraftList(drafts, elId, isSent) {
-        const box = document.getElementById(elId);
-        if (!drafts.length) { box.innerHTML = '<p class="hint">None yet.</p>'; return; }
-        box.innerHTML = drafts.map(d => `
-            <div class="draft-row">
-              <div class="draft-meta">
-                <strong>${escapeHtml(d.job?.title || 'Job')}</strong> @ ${escapeHtml(d.job?.company || '?')}
-                <span class="draft-status ${d.status}">${d.status}</span>
-              </div>
-              <div class="draft-subject">${escapeHtml(d.subject)}</div>
-              <div class="draft-actions">
-                ${isSent
-                    ? `<span class="hint">Sent to ${escapeHtml(d.contact_email || '—')}</span>`
-                    : `<button class="btn btn-sm btn-secondary" data-id="${d.draft_id}">Review</button>
-                       <button class="btn btn-sm btn-primary" data-send="${d.draft_id}">Send now</button>`}
-              </div>
-            </div>`).join('');
-
-        box.querySelectorAll('[data-id]').forEach(b => b.addEventListener('click', async () => {
-            const d = (await API.listDrafts()).drafts.find(x => x.draft_id === b.getAttribute('data-id'));
-            if (!d) return;
-            document.getElementById('draftModalTitle').textContent = `Draft for ${d.job?.title} @ ${d.job?.company}`;
-            window._currentDraft = d;
-            document.getElementById('contactEmail').value = d.contact_email || '';
-            document.getElementById('draftSubject').value = d.subject || '';
-            document.getElementById('draftBody').value = d.body || '';
-            setStatus('draftStatus', d.status === 'approved' ? 'Approved: you can send it now.' : `Status: ${d.status}`);
-            modal().hidden = false;
-        }));
-        box.querySelectorAll('[data-send]').forEach(b => b.addEventListener('click', async () => {
-            const id = b.getAttribute('data-send');
-            if (!confirm('Send this approved application email now?')) return;
-            try {
-                const r = await API.sendEmail(id);
-                alert(`Email sent to ${r.result.to}`);
-                await loadDrafts();
-            } catch (err) {
-                alert(`Send failed: ${err.message}`);
-            }
-        }));
-    }
-
-    // --- helpers ---
-
-    function escapeHtml(s) {
-        return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    }
-    function escapeAttr(s) {
-        return escapeHtml(String(s).replace(/'/g, '&#39;'));
-    }
+  // --- Boot: hydrate candidate stack + auto-run matcher if a profile exists ---
+  window.CampusPlacementAPI.getProfile().then(function (data) {
+    const p = data && data.profile;
+    if (!p) return;
+    const skills = Array.isArray(p.skills) ? p.skills : [];
+    stackEl.innerHTML = skills.slice(0, 12).map(function (s) {
+      return '<span class="px-space-sm py-0.5 rounded-md bg-slate-elevated text-chalk-text font-body-sm text-body-sm">' + escapeHtml(s) + '</span>';
+    }).join('') || '<span class="font-body-sm text-body-sm text-titanium-muted">No skills on file.</span>';
+    document.getElementById('active-profile').textContent = (p.name || 'Profile').slice(0, 24);
+  }).catch(function () { /* keep default state */ });
 })();

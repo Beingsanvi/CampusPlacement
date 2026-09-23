@@ -76,7 +76,7 @@ class MainPlacementAgent:
             'what is', 'what are', 'how many', 'minimum', 'maximum',
             'required', 'eligible', 'eligibility', 'can i', 'is it',
             'tell me about', 'explain', 'describe', 'details about',
-            'cpga', 'backlog', 'branch', 'company', 'requirement',
+            'cgpa', 'backlog', 'branch', 'company', 'requirement',
             'policy', 'rule', 'guideline', 'process', 'deadline',
             'tech nova', 'datasphere', 'cloudnova', 'documents'
         ]

@@ -54,10 +54,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (nameElement && nameElement.textContent.includes(agentName)) {
                 const statusElement = card.querySelector('.agent-status');
                 if (statusElement) {
-                    statusElement.className = `agent-status ${isActive ? 'active' : 'inactive'}`;
+                    statusElement.className = 'agent-status flex items-center gap-space-xs';
                     statusElement.innerHTML = `
-                        <span class="status-dot"></span>
-                        ${isActive ? 'Active' : 'Inactive'}
+                        <span class="w-1.5 h-1.5 ${isActive ? 'bg-primary-container' : 'bg-error'} rounded-full"></span>
+                        <span class="font-label-sm text-label-sm ${isActive ? 'text-primary-fixed' : 'text-error'} uppercase font-semibold">${isActive ? 'Active' : 'Inactive'}</span>
                     `;
                 }
             }
@@ -103,18 +103,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
         activities.forEach(activity => {
             const activityItem = document.createElement('div');
-            activityItem.className = 'activity-item';
-            
+            activityItem.className = 'activity-item flex items-start gap-space-md bg-slate-elevated rounded-lg p-space-md';
+
             activityItem.innerHTML = `
-                <div class="activity-icon completed">
-                    <i class="fas fa-check"></i>
+                <div class="w-8 h-8 rounded-lg bg-surface flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-primary-container text-[16px]">task_alt</span>
                 </div>
-                <div class="activity-details">
-                    <p><strong>${activity.action}:</strong> ${activity.details}</p>
-                    <span class="activity-time">${formatTimeAgo(activity.timestamp)}</span>
+                <div class="flex flex-col">
+                    <p class="font-body-md text-body-md text-chalk-text"><strong>${escapeHtml(activity.action)}:</strong> ${escapeHtml(activity.details)}</p>
+                    <span class="activity-time font-body-sm text-body-sm text-titanium-muted">${formatTimeAgo(activity.timestamp)}</span>
                 </div>
             `;
-            
+
             activityList.appendChild(activityItem);
         });
     }
@@ -127,6 +127,18 @@ document.addEventListener('DOMContentLoaded', function() {
         if (lastSyncElement) {
             lastSyncElement.textContent = 'Just now';
         }
+    }
+
+    /**
+     * Escape untrusted strings before injecting into the DOM.
+     */
+    function escapeHtml(value) {
+        return String(value == null ? '' : value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
     }
 
     /**
