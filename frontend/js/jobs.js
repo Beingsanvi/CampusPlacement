@@ -138,8 +138,14 @@
   }
 
   function renderMatches(animated) {
-    const visible = matches.filter(function (m) { return m.score >= currentThreshold; });
-    matchCount.textContent = visible.length + (visible.length === 1 ? ' match' : ' matches') + ' above ' + currentThreshold + '% threshold';
+    const above = matches.filter(function (m) { return m.score >= currentThreshold; });
+    // Always surface the best fits so a new resume never looks "empty" —
+    // fall back to top 8 when nothing clears the threshold.
+    const visible = above.length ? above : matches.slice(0, 8);
+    const scope = above.length
+      ? visible.length + (visible.length === 1 ? ' match' : ' matches') + ' above ' + currentThreshold + '% threshold'
+      : '0 above ' + currentThreshold + '% — showing ' + visible.length + ' closest fits';
+    matchCount.textContent = scope;
 
     if (!matches.length) {
       document.getElementById('scraped-total').textContent = '0';
@@ -150,7 +156,12 @@
       return;
     }
 
-    const html = visible.map(cardHtml).join('\n');
+    const fallbackNote = above.length ? '' :
+      '<div class="bg-surface border border-signal-amber/40 rounded-lg p-space-md font-body-sm text-body-sm text-signal-amber flex items-center gap-space-sm">'
+      + '<span class="material-symbols-outlined text-[18px]">info</span>'
+      + '<span>Nothing scored above ' + currentThreshold + '% for this resume. Showing the closest fits — lower the threshold or refine skills on the Profile page.</span></div>';
+
+    const html = fallbackNote + visible.map(cardHtml).join('\n');
     resultsEl.innerHTML = html;
     document.getElementById('scraped-total').textContent = String(matches.length);
 
@@ -163,10 +174,11 @@
     });
 
     const buttons = resultsEl.querySelectorAll('.draft-btn');
-    buttons.forEach(function (btn, i) {
-      btn.setAttribute('data-match-index', String(i));
+    buttons.forEach(function (btn) {
+      const idx = parseInt(btn.getAttribute('data-match-index'), 10);
       btn.addEventListener('click', function () {
-        draftForMatch(matches[i]);
+        const m = visible[idx];
+        if (m) draftForMatch(m);
       });
     });
   }
@@ -203,7 +215,11 @@
         document.getElementById('elapsed-cycle').textContent = (ms / 1000).toFixed(1) + 's';
         logLine('Match cycle complete: ' + matches.length + ' openings ranked in ' + ms + 'ms.', 'text-primary-fixed');
         const passed = matches.filter(function (m) { return m.score >= currentThreshold; }).length;
-        logLine(passed + ' openings clear the ' + currentThreshold + '% threshold.', 'text-chalk-text');
+        if (passed) {
+          logLine(passed + ' openings clear the ' + currentThreshold + '% threshold.', 'text-chalk-text');
+        } else {
+          logLine('None above ' + currentThreshold + '% — showing closest fits. Lower the slider for more.', 'text-signal-amber');
+        }
         renderMatches(true);
         matcherBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">bolt</span><span>Run Matcher</span>';
         matcherBtn.disabled = false;
@@ -241,14 +257,25 @@
     });
   });
 
-  // --- Boot: hydrate candidate stack + auto-run matcher if a profile exists ---
-  window.CampusPlacementAPI.getProfile().then(function (data) {
-    const p = data && data.profile;
-    if (!p) return;
-    const skills = Array.isArray(p.skills) ? p.skills : [];
-    stackEl.innerHTML = skills.slice(0, 12).map(function (s) {
-      return '<span class="px-space-sm py-0.5 rounded-md bg-slate-elevated text-chalk-text font-body-sm text-body-sm">' + escapeHtml(s) + '</span>';
-    }).join('') || '<span class="font-body-sm text-body-sm text-titanium-muted">No skills on file.</span>';
-    document.getElementById('active-profile').textContent = (p.name || 'Profile').slice(0, 24);
-  }).catch(function () { /* keep default state */ });
+  // --- Boot: hydrate candidate stack (re-read on every focus so a fresh upload shows up) ---
+  function hydrateCandidate() {
+    return window.CampusPlacementAPI.getProfile().then(function (data) {
+      const p = data && data.profile;
+      if (!p) {
+        stackEl.innerHTML = '<span class="font-body-sm text-body-sm text-titanium-muted">No profile synced — upload a resume first.</span>';
+        document.getElementById('active-profile').textContent = 'No profile yet';
+        return;
+      }
+      const skills = Array.isArray(p.skills) ? p.skills : [];
+      stackEl.innerHTML = skills.slice(0, 12).map(function (s) {
+        return '<span class="px-space-sm py-0.5 rounded-md bg-slate-elevated text-chalk-text font-body-sm text-body-sm">' + escapeHtml(s) + '</span>';
+      }).join('') || '<span class="font-body-sm text-body-sm text-titanium-muted">No skills on file.</span>';
+      document.getElementById('active-profile').textContent = (p.name || 'Profile').slice(0, 24);
+    }).catch(function () { /* keep default state */ });
+  }
+  hydrateCandidate();
+  window.addEventListener('focus', hydrateCandidate);
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) hydrateCandidate();
+  });
 })();

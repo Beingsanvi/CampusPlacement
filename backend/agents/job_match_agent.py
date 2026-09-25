@@ -44,22 +44,36 @@ def match_job(profile: Dict[str, Any], job: Job) -> Dict[str, Any]:
     hay = f"{job.title} {job.company} {' '.join(job.tags)} {job.description}".lower()
     hay_tokens = _tokens(hay)
 
-    # 1. Skills
+    # 1. Skills — substring + token overlap so short skills still hit
     profile_skills = _skill_names(profile)
     score = 0.0
     if profile_skills:
-        hits = [s for s in profile_skills if s in hay]
-        matched_skills = hits
-        raw = min(1.0, len(hits) / max(3.0, min(6.0, len(profile_skills))))
+        hits = []
+        for s in profile_skills:
+            if not s:
+                continue
+            if s in hay or any(len(tok) >= 3 and tok in hay_tokens for tok in _tokens(s)):
+                hits.append(s)
+        matched_skills = list(dict.fromkeys(hits))
+        # Full credit with fewer hits so diverse resumes still score competitively
+        raw = min(1.0, len(matched_skills) / max(2.0, min(5.0, len(profile_skills))))
         score += WEIGHTS["skills"] * raw
-        if hits:
-            reasons.append(f"Profile has matching skills: {', '.join(hits[:5])}")
+        if matched_skills:
+            reasons.append(f"Profile has matching skills: {', '.join(matched_skills[:5])}")
         # Missing skills from job tags
         job_keywords = [t for t in _tokens(f"{' '.join(job.tags)} {job.title}") if t in (
             "python", "java", "sql", "react", "ml", "nlp", "docker", "devops", "linux",
             "javascript", "typescript", "node", "cloud", "azure", "aws", "tensorflow", "pytorch"
         )]
         missing_skills = [k for k in job_keywords if k not in profile_skills]
+    else:
+        # Resume parsed but no known skills — still allow role/location signals
+        reasons.append("No extractable skills on profile; scoring on role and preferences")
+
+    # 1b. Baseline: any real profile gets a small floor so results always appear
+    if profile.get("name") or profile_skills:
+        score += 0.10
+        reasons.append("Profile present — baseline fit applied")
 
     # 2. Role preference
     role_kw = _role_keywords(profile)
@@ -67,9 +81,13 @@ def match_job(profile: Dict[str, Any], job: Job) -> Dict[str, Any]:
         if any(t in hay for t in role_kw):
             score += WEIGHTS["role"]
             reasons.append(f"Job matches preferred role '{profile.get('role_preference')}'")
-        elif any(w in job.title.lower() for w in ["engineer", "developer", "analyst", "scientist"]):
+        elif any(w in job.title.lower() for w in ["engineer", "developer", "analyst", "scientist", "intern"]):
             score += WEIGHTS["role"] * 0.5
             reasons.append("Job role is related to your preferred role")
+    elif any(w in job.title.lower() for w in ["engineer", "developer", "analyst", "scientist", "intern"]):
+        # No role set — give partial credit for generic technical roles
+        score += WEIGHTS["role"] * 0.35
+        reasons.append("Technical role — add a role preference for tighter ranking")
 
     # 3. Location / remote
     pref_type = str(profile.get("job_type") or "").lower()

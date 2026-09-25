@@ -76,7 +76,7 @@
 
   function headerHtml() {
     return [
-      '<header class="fixed top-0 left-0 right-0 lg:left-64 h-16 bg-black/70 backdrop-blur-md border-b border-slate-border z-40 flex items-center justify-between px-gutter-lg">',
+      '<header class="fixed top-0 left-0 right-0 lg:left-64 h-16 bg-black/55 backdrop-blur-xl border-b border-white/10 z-40 flex items-center justify-between px-gutter-lg">',
       '  <div class="flex items-center gap-space-md">',
       '    <button class="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg bg-slate-elevated hover:bg-slate-border text-chalk-text transition-colors shrink-0" id="shell-menu-btn" aria-label="Open menu">',
       '      <span class="material-symbols-outlined text-[22px]">menu</span>',
@@ -116,7 +116,7 @@
     "button:not(:disabled),input[type=range],[role=button]{transition:transform .12s ease,box-shadow .2s ease,background-color .2s ease,border-color .2s ease,color .2s ease,opacity .2s ease}",
     "button:not(:disabled):active,input[type=range]:active{transform:scale(.96)}",
     ".card-lift{transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}",
-    ".card-lift:hover{transform:translateY(-3px);box-shadow:0 14px 28px -14px rgba(15,23,42,.22);border-color:#c7d2fe}",
+    ".card-lift:hover{transform:translateY(-3px);box-shadow:0 14px 28px -14px rgba(244,37,136,.35);border-color:#f42588}",
     ".card-lift:active{transform:translateY(-1px) scale(.995)}",
     ".sf-progress{transition:width .6s cubic-bezier(.22,1,.36,1)}",
     ".sf-typing{display:inline-flex;gap:4px;align-items:center}",
@@ -124,6 +124,16 @@
     ".sf-typing span:nth-child(2){animation-delay:.18s}",
     ".sf-typing span:nth-child(3){animation-delay:.36s}",
     "@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}",
+    "html{color-scheme:dark}",
+    "body{background:#030206}",
+    "main,.bg-background,.bg-obsidian-base{background-color:transparent!important}",
+    "main{position:relative;z-index:1;padding-bottom:6.5rem!important}",
+    "input,textarea,select{color-scheme:dark}",
+    "#shell-ribbons{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}",
+    "#shell-ribbons .rb1{position:absolute;width:140vw;height:125vh;top:-30vh;left:-24vw;border-radius:54% 46% 40% 60%/38% 44% 56% 62%;background:radial-gradient(circle at 40% 36%,#ff2b93 0%,#bd156d 22%,#680d46 44%,#1f041b 72%,transparent 88%);filter:blur(8px);opacity:.28;transform:rotate(-19deg)}",
+    "#shell-ribbons .rb2{position:absolute;width:124vw;height:114vh;top:-12vh;left:12vw;border-radius:44% 56% 38% 62%/54% 46% 54% 46%;background:linear-gradient(132deg,#ff238c 0%,#9e105e 28%,#4a0833 62%,#0e0210 94%);filter:blur(18px);opacity:.22;transform:rotate(13deg)}",
+    "#shell-ribbons .vignette{position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,transparent 10%,rgba(3,2,6,.55) 55%,#030206 92%)}",
+    ".shell-dock{background:rgba(14,8,20,.85);backdrop-filter:blur(22px);border:1px solid rgba(255,255,255,.12);box-shadow:0 24px 60px rgba(0,0,0,.9)}",
   ].join("\n");
 
   function installAnimations() {
@@ -227,7 +237,7 @@
     const aside = document.getElementById("shell-sidebar");
     const header = document.getElementById("shell-header");
     if (aside) {
-      aside.className = "fixed left-0 top-0 h-full w-64 max-w-[80vw] bg-surface z-50 flex flex-col justify-between border-r border-slate-border -translate-x-full lg:translate-x-0 transition-transform duration-200 lg:transition-none overflow-hidden";
+      aside.className = "fixed left-0 top-0 h-full w-64 max-w-[80vw] bg-[#0a0413]/90 backdrop-blur-xl z-50 flex flex-col justify-between border-r border-white/10 -translate-x-full lg:translate-x-0 transition-transform duration-200 lg:transition-none overflow-hidden";
       aside.setAttribute("aria-label", "Primary navigation");
       aside.innerHTML = sidebarHtml();
     }
@@ -239,6 +249,33 @@
       overlay.className = "fixed inset-0 z-30 bg-slate-border/40 backdrop-blur-sm hidden lg:hidden";
       overlay.setAttribute("aria-hidden", "true");
       document.body.appendChild(overlay);
+    }
+
+    if (!document.getElementById("shell-ribbons")) {
+      const ribbons = document.createElement("div");
+      ribbons.id = "shell-ribbons";
+      ribbons.setAttribute("aria-hidden", "true");
+      ribbons.innerHTML = '<div class="rb1"></div><div class="rb2"></div><div class="vignette"></div>';
+      document.body.prepend(ribbons);
+    }
+
+    if (!document.getElementById("shell-dock")) {
+      const dock = document.createElement("aside");
+      dock.id = "shell-dock";
+      dock.className = "fixed bottom-5 left-1/2 -translate-x-1/2 z-40 w-auto max-w-[94vw]";
+      dock.innerHTML = [
+        '<div class="shell-dock flex items-center p-1.5 rounded-2xl sm:rounded-full space-x-1 sm:space-x-2 text-xs font-medium text-neutral-300">',
+        '  <a href="index.html" class="flex items-center justify-center bg-[#211429] hover:bg-[#2d1b37] text-white px-3 py-1.5 rounded-xl sm:rounded-full font-black tracking-tighter text-sm border border-white/10">SYS<span class="text-brand-hotpink">_0</span></a>',
+        '  <div class="hidden sm:flex items-center bg-black/40 rounded-full p-0.5 border border-white/5 font-mono text-[10px] tracking-wider">',
+        '    <a class="px-2.5 py-1 rounded-full text-neutral-400 hover:text-white" href="chat.html">VECTORS</a>',
+        '    <a class="px-2.5 py-1 rounded-full text-neutral-400 hover:text-white" href="dashboard.html">AGENTS</a>',
+        '    <a class="px-2.5 py-1 rounded-full text-neutral-400 hover:text-white" href="jobs.html">MATCH</a>',
+        '    <a class="px-2.5 py-1 rounded-full text-neutral-400 hover:text-white" href="email.html">SMTP</a>',
+        "  </div>",
+        '  <a class="bg-brand-accentYellow hover:bg-[#fff960] text-black font-semibold text-xs px-3.5 py-2 rounded-xl sm:rounded-full tracking-tight" href="chat.html"><span class="font-mono text-[11px] font-bold">OPEN CONSOLE</span></a>',
+        "</div>",
+      ].join("");
+      document.body.appendChild(dock);
     }
 
     wireDrawer();
